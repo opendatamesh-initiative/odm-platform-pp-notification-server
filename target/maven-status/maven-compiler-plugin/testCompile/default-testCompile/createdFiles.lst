@@ -1,0 +1,15 @@
+org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/SubscriptionErrorIT.class
+org/opendatamesh/platform/pp/notification/subscription/services/usecases/create/SubscriptionCreatorImplTest.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/TestContainerConfig.class
+org/opendatamesh/platform/pp/notification/event/services/usecases/dispatch/DataEventDispatcherImplTest$1.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/NotificationApplicationIT.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/SubscriptionControllerIT.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/DispatchControllerIT.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/EventControllerIT.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/NotificationControllerIT.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/resources/ODMNotificationResources.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/TestConfig.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/EventErrorIT.class
+org/opendatamesh/platform/pp/notification/event/services/usecases/dispatch/DataEventDispatcherImplTest.class
+org/opendatamesh/platform/pp/notification/rest/v2/it/RoutesV2.class
+org/opendatamesh/platform/pp/notification/subscription/services/usecases/create/SubscriptionCreatorImplTest$1.class
