@@ -7,7 +7,10 @@ public class SubscriptionSearchOptions {
     @Schema(description = "Filter by subscription name")
     private String name;
 
-    @Schema(description = "Filter by event type")
+    @Schema(description = "Filter by event type (name)")
+    private String eventTypeName;
+
+    @Schema(description = "Filter by event type (full object)")
     private SubscriptionEventTypeRes eventType;
 
     public String getName() {
@@ -16,6 +19,14 @@ public class SubscriptionSearchOptions {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEventTypeName() {
+        return eventTypeName;
+    }
+
+    public void setEventTypeName(String eventTypeName) {
+        this.eventTypeName = eventTypeName;
     }
 
     public SubscriptionEventTypeRes getEventType() {

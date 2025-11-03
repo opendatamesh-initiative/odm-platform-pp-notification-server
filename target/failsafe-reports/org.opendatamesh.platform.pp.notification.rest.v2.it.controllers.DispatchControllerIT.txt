@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.opendatamesh.platform.pp.notification.rest.v2.it.controllers.DispatchControllerIT
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.259 s -- in org.opendatamesh.platform.pp.notification.rest.v2.it.controllers.DispatchControllerIT

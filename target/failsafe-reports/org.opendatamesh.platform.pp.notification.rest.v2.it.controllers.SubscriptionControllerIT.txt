@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.opendatamesh.platform.pp.notification.rest.v2.it.controllers.SubscriptionControllerIT
--------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.325 s -- in org.opendatamesh.platform.pp.notification.rest.v2.it.controllers.SubscriptionControllerIT

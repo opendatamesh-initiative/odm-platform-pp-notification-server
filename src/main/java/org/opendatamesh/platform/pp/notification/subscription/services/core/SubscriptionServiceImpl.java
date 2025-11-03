@@ -66,8 +66,14 @@ public class SubscriptionServiceImpl extends GenericMappedAndFilteredCrudService
             if (filters.getName() != null) {
                 specs.add(SubscriptionRepository.Specs.hasName(filters.getName()));
             }
-            if (filters.getEventType() != null) {
-                specs.add(SubscriptionRepository.Specs.hasEventType(filters.getEventType().getEventName()));
+            String eventTypeName = null;
+            if (filters.getEventTypeName() != null) {
+                eventTypeName = filters.getEventTypeName();
+            } else if (filters.getEventType() != null) {
+                eventTypeName = filters.getEventType().getEventName();
+            }
+            if (eventTypeName != null) {
+                specs.add(SubscriptionRepository.Specs.hasEventType(eventTypeName));
             }
         }
         return SpecsUtils.combineWithAnd(specs);

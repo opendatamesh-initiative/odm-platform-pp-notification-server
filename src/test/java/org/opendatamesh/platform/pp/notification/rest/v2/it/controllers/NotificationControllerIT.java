@@ -68,6 +68,7 @@ public class NotificationControllerIT extends NotificationApplicationIT {
 
         // Then
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(getResponse.getBody()).isNotNull();
         assertThat(getResponse.getBody()).contains("DATAPRODUCT_CREATED");
 
         // Cleanup
@@ -102,6 +103,7 @@ public class NotificationControllerIT extends NotificationApplicationIT {
                 new HttpEntity<>(event),
                 Void.class
         );
+        assertThat(dispatchResponse.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
 
         // Wait a bit for async processing
         try {

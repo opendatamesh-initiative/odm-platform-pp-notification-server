@@ -59,6 +59,7 @@ public class DispatchControllerIT extends NotificationApplicationIT {
                 String.class
         );
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(getResponse.getBody()).isNotNull();
         assertThat(getResponse.getBody()).contains("DATAPRODUCT_CREATED");
         assertThat(getResponse.getBody()).contains("dp-123");
 
@@ -68,6 +69,7 @@ public class DispatchControllerIT extends NotificationApplicationIT {
                 String.class
         );
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(getResponse.getBody()).isNotNull();
         assertThat(getResponse.getBody()).contains("DATAPRODUCT_CREATED");
 
         // Cleanup

@@ -36,6 +36,9 @@ public class EventControllerIT extends NotificationApplicationIT {
                 new HttpEntity<>(subscription),
                 SubscriptionRes.class
         );
+        assertThat(createSubResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(createSubResponse.getBody()).isNotNull();
+        assertThat(createSubResponse.getBody().getUuid()).isNotNull();
 
         EventRes event = new EventRes();
         event.setResourceType("DATA_PRODUCT");
@@ -49,6 +52,7 @@ public class EventControllerIT extends NotificationApplicationIT {
                 new HttpEntity<>(event),
                 Void.class
         );
+        assertThat(dispatchResponse.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
 
         // When
         ResponseEntity<String> getResponse = rest.getForEntity(
@@ -80,6 +84,9 @@ public class EventControllerIT extends NotificationApplicationIT {
                 new HttpEntity<>(subscription),
                 SubscriptionRes.class
         );
+        assertThat(createSubResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(createSubResponse.getBody()).isNotNull();
+        assertThat(createSubResponse.getBody().getUuid()).isNotNull();
 
         EventRes event = new EventRes();
         event.setResourceType("DATA_PRODUCT");
@@ -93,6 +100,7 @@ public class EventControllerIT extends NotificationApplicationIT {
                 new HttpEntity<>(event),
                 Void.class
         );
+        assertThat(dispatchResponse.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
 
         // When - Read events to get the created event ID
         ResponseEntity<String> getEventsResponse = rest.getForEntity(

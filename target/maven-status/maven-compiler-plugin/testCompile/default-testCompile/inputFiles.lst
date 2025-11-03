@@ -1,3 +1,4 @@
+/home/alfiogiulianofaro/git/odm-platform-pp-notification-server/src/test/java/org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/NotificationReplayControllerIT.java
 /home/alfiogiulianofaro/git/odm-platform-pp-notification-server/src/test/java/org/opendatamesh/platform/pp/notification/rest/v2/it/NotificationApplicationIT.java
 /home/alfiogiulianofaro/git/odm-platform-pp-notification-server/src/test/java/org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/SubscriptionControllerIT.java
 /home/alfiogiulianofaro/git/odm-platform-pp-notification-server/src/test/java/org/opendatamesh/platform/pp/notification/rest/v2/it/TestConfig.java

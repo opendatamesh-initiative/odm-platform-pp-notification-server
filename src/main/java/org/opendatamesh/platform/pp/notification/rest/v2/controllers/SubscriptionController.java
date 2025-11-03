@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.SubscriptionRes;
+import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.SubscriptionSearchOptions;
 import org.opendatamesh.platform.pp.notification.subscription.services.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,14 +25,19 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    @Operation(summary = "Get all subscriptions", description = "Retrieve a paginated list of all subscriptions")
+    @Operation(summary = "Get all subscriptions", description = "Retrieve a paginated list of all subscriptions, optionally filtered by event type")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Subscriptions retrieved successfully",
                     content = @Content(schema = @Schema(implementation = Page.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping
-    public Page<SubscriptionRes> searchSubscriptions(Pageable pageable) {
+    public Page<SubscriptionRes> searchSubscriptions(
+            @Parameter(description = "Search filters") SubscriptionSearchOptions filters,
+            Pageable pageable) {
+        if (filters != null && (filters.getName() != null || filters.getEventTypeName() != null || filters.getEventType() != null)) {
+            return subscriptionService.findAllResourcesFiltered(pageable, filters);
+        }
         return subscriptionService.findAllResources(pageable);
     }
 
