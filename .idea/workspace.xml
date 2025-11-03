@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9777d4f4-6f72-4acd-bf0a-fcf9f8c60f81" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/opendatamesh/platform/pp/notification/notification/services/NotificationUtilsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opendatamesh/platform/pp/notification/notification/services/NotificationUtilsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/opendatamesh/platform/pp/notification/rest/v2/controllers/NotificationUtilsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opendatamesh/platform/pp/notification/rest/v2/controllers/NotificationUtilsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/NotificationReplayControllerIT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/opendatamesh/platform/pp/notification/rest/v2/it/controllers/NotificationReplayControllerIT.java" afterDir="false" />
-    </list>
+    <list default="true" id="9777d4f4-6f72-4acd-bf0a-fcf9f8c60f81" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
