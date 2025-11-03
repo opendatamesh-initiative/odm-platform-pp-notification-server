@@ -1,7 +1,0 @@
-{
-  "name": "opa-policy-checker",
-  "displayName": "OPA Policy Checker",
-  "observerServerBaseUrl": "http://localhost:9001",
-  "eventTypes": ["DATAPRODUCT_CREATED", "DATAPRODUCT_UPDATED"]
-}
-

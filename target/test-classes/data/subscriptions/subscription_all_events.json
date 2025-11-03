@@ -1,6 +1,0 @@
-{
-  "name": "all-events-subscriber",
-  "displayName": "All Events Subscriber",
-  "observerServerBaseUrl": "http://localhost:9002"
-}
-
