@@ -1,0 +1,8 @@
+{
+  "resourceType": "DATA_PRODUCT",
+  "resourceUuid": "abc123",
+  "eventType": "DATAPRODUCT_UPDATED",
+  "eventTypeVersion": "1.0.0",
+  "eventContent": "{\"id\": \"abc123\", \"name\": \"DP abc 123 Updated\", \"description\": \"Updated test data product\"}"
+}
+
