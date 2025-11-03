@@ -100,11 +100,15 @@ public class NotificationReplayControllerIT extends NotificationApplicationIT {
                 NotificationRes.class
         );
 
-        // Then - Verify replay response
+        // Then - Verify replay response contains complete notification
         assertThat(replayResponse.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
         assertThat(replayResponse.getBody()).isNotNull();
         assertThat(replayResponse.getBody().getSequenceId()).isNotNull();
         assertThat(replayResponse.getBody().getSequenceId()).isNotEqualTo(originalNotificationId);
+        assertThat(replayResponse.getBody().getSubscription()).isNotNull();
+        assertThat(replayResponse.getBody().getSubscription().getUuid()).isEqualTo(subscriptionUuid);
+        assertThat(replayResponse.getBody().getEvent()).isNotNull();
+        assertThat(replayResponse.getBody().getStatus()).isNotNull();
 
         // Wait a bit for async processing
         try {

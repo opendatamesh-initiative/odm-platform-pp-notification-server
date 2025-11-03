@@ -5,6 +5,7 @@ import org.opendatamesh.platform.pp.notification.exceptions.NotFoundException;
 import org.opendatamesh.platform.pp.notification.notification.services.usecases.replay.NotificationReplayCommand;
 import org.opendatamesh.platform.pp.notification.notification.services.usecases.replay.NotificationReplayPresenter;
 import org.opendatamesh.platform.pp.notification.notification.services.usecases.replay.NotificationReplayer;
+import org.opendatamesh.platform.pp.notification.rest.v2.resources.notification.NotificationRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,10 @@ public class NotificationUtilsService {
     @Autowired
     private NotificationReplayer notificationReplayer;
 
-    /**
-     * Replay a notification to its original subscriber (non-broadcast)
-     *
-     * @param notificationId The ID of the notification to replay
-     * @return The ID of the newly created replayed notification
-     * @throws NotFoundException   if the notification doesn't exist
-     * @throws BadRequestException if the notification is invalid or missing required data
-     */
-    public Long replay(Long notificationId) {
+    @Autowired
+    private NotificationService notificationService;
+
+    public NotificationRes replay(Long notificationId) {
         log.info("Replaying notification with ID: {}", notificationId);
         if (notificationId == null) {
             throw new BadRequestException("Invalid notificatio id");
@@ -48,7 +44,9 @@ public class NotificationUtilsService {
             log.info("Successfully replayed notification {} as new notification {}",
                     notificationId, replayedNotificationId);
 
-            return replayedNotificationId;
+            // Retrieve and return the complete notification
+            NotificationRes replayedNotification = notificationService.findOneResource(replayedNotificationId);
+            return replayedNotification;
 
         } catch (NotFoundException e) {
             throw new NotFoundException("Original Notification not found");

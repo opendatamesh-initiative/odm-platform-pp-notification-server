@@ -11,7 +11,6 @@ import org.opendatamesh.platform.pp.notification.notification.services.Notificat
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.notification.NotificationRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,13 +31,8 @@ public class NotificationUtilsController {
     })
     @PostMapping("/{notificationId}/replay")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<NotificationRes> replayNotification(
+    public NotificationRes replayNotification(
             @Parameter(description = "Notification ID to replay") @PathVariable Long notificationId) {
-        
-        Long replayedNotificationId = notificationUtilsService.replay(notificationId);
-        
-        NotificationRes response = new NotificationRes();
-        response.setSequenceId(replayedNotificationId);
-        return ResponseEntity.accepted().body(response);
+        return notificationUtilsService.replay(notificationId);
     }
 }
