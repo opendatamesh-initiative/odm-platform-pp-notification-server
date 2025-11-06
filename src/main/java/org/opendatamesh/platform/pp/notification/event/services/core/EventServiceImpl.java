@@ -2,7 +2,6 @@ package org.opendatamesh.platform.pp.notification.event.services.core;
 
 import org.opendatamesh.platform.pp.notification.event.entities.Event;
 import org.opendatamesh.platform.pp.notification.event.repositories.EventRepository;
-import org.opendatamesh.platform.pp.notification.event.services.EventService;
 import org.opendatamesh.platform.pp.notification.exceptions.BadRequestException;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.event.EventMapper;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.event.EventRes;
@@ -39,6 +38,9 @@ public class EventServiceImpl extends GenericMappedAndFilteredCrudServiceImpl<Ev
         if (objectToValidate.getType() == null) {
             throw new BadRequestException("Event type cannot be null");
         }
+        if (!StringUtils.hasText(objectToValidate.getEventTypeVersion())) {
+            throw new BadRequestException("Event must have a version number.");
+        }
         if (!StringUtils.hasText(objectToValidate.getEventContent())) {
             throw new BadRequestException("Event content cannot be null or empty");
         }
@@ -54,7 +56,7 @@ public class EventServiceImpl extends GenericMappedAndFilteredCrudServiceImpl<Ev
         List<Specification<Event>> specs = new ArrayList<>();
         if (filters != null) {
             if (filters.getEventType() != null) {
-                specs.add(EventRepository.Specs.hasEventType(filters.getEventType().name()));
+                specs.add(EventRepository.Specs.hasEventType(filters.getEventType()));
             }
             if (filters.getResourceType() != null) {
                 specs.add(EventRepository.Specs.hasResourceType(filters.getResourceType()));

@@ -1,7 +1,6 @@
 package org.opendatamesh.platform.pp.notification.subscription.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.opendatamesh.platform.pp.notification.utils.entities.VersionedEntity;
 
 import java.util.ArrayList;
@@ -13,8 +12,7 @@ public class Subscription extends VersionedEntity {
 
     @Id
     @Column(name = "uuid")
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String uuid;
 
     @Column(name = "name")
@@ -26,9 +24,11 @@ public class Subscription extends VersionedEntity {
     @Column(name = "observer_server_base_url")
     private String observerServerBaseUrl;
 
+    @Column(name = "observer_api_version")
+    private String observerApiVersion;
+
     @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubscriptionEventType> eventTypes = new ArrayList<>();
-
 
     public String getUuid() {
         return uuid;
@@ -62,11 +62,22 @@ public class Subscription extends VersionedEntity {
         this.observerServerBaseUrl = observerServerBaseUrl;
     }
 
+    public String getObserverApiVersion() {
+        return observerApiVersion;
+    }
+
+    public void setObserverApiVersion(String observerApiVersion) {
+        this.observerApiVersion = observerApiVersion;
+    }
+
     public List<SubscriptionEventType> getEventTypes() {
         return eventTypes;
     }
 
     public void setEventTypes(List<SubscriptionEventType> eventTypes) {
         this.eventTypes = eventTypes;
+        if (eventTypes != null) {
+            eventTypes.forEach(sube -> sube.setSubscription(this));
+        }
     }
 }

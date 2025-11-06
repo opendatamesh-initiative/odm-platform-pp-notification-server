@@ -1,7 +1,6 @@
 package org.opendatamesh.platform.pp.notification.event.entities;
 
 import jakarta.persistence.*;
-import org.opendatamesh.platform.pp.notification.rest.v2.resources.event.EventType;
 import org.opendatamesh.platform.pp.notification.utils.entities.VersionedEntity;
 
 @Entity
@@ -15,12 +14,11 @@ public class Event extends VersionedEntity {
     @Column(name = "resource_type")
     private String resourceType;
 
-    @Column(name = "resource_uuid")
+    @Column(name = "resource_identifier")
     private String resourceIdentifier;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "event_type")
-    private EventType type;
+    private String type;
 
     @Column(name = "event_type_version")
     private String eventTypeVersion;
@@ -52,11 +50,11 @@ public class Event extends VersionedEntity {
         this.resourceIdentifier = resourceIdentifier;
     }
 
-    public EventType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(EventType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

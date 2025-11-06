@@ -14,11 +14,15 @@ public class SubscriptionEventType {
     @JoinColumn(name = "subscription_uuid", insertable = false, updatable = false)
     private Subscription subscription;
 
-    @Column(name = "subscription_uuid")
-    private String subscriptionUuid;
+    @Column(name = "event_type")
+    private String eventType;
 
-    @Column(name = "event_name")
-    private String eventName;
+    public SubscriptionEventType() {
+    }
+
+    public SubscriptionEventType(String eventType) {
+        this.eventType = eventType;
+    }
 
     public Long getSequenceId() {
         return sequenceId;
@@ -28,20 +32,12 @@ public class SubscriptionEventType {
         this.sequenceId = sequenceId;
     }
 
-    public String getSubscriptionUuid() {
-        return subscriptionUuid;
+    public String getEventType() {
+        return eventType;
     }
 
-    public void setSubscriptionUuid(String subscriptionUuid) {
-        this.subscriptionUuid = subscriptionUuid;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
     public Subscription getSubscription() {

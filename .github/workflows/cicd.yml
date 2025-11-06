@@ -97,9 +97,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker images
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_NAME }} --label "runnumber=${{ github.run_id }}"
-      - name: Login to GitHub Container Registry
+      - name: Login to GitHub Container notification
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      - name: Push images to GitHub Container Registry
+      - name: Push images to GitHub Container notification
         run: |
           IMAGE_ID=ghcr.io/opendatamesh-initiative/${{ env.IMAGE_NAME }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')

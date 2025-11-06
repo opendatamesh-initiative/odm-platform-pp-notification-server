@@ -2,16 +2,17 @@ package org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name = "SubscriptionSearchOptions", description = "Search and filter options for subscriptions")
 public class SubscriptionSearchOptions {
 
-    @Schema(description = "Filter by subscription name")
+    @Schema(description = "Filter by subscription observerName")
     private String name;
 
-    @Schema(description = "Filter by event type (name)")
+    @Schema(description = "Filter by event type (observerName)")
     private String eventTypeName;
 
-    @Schema(description = "Filter by event type (full object)")
-    private SubscriptionEventTypeRes eventType;
+    @Schema(description = "Filter for subscriptions without event types")
+    private Boolean withoutEventTypes;
 
     public String getName() {
         return name;
@@ -29,11 +30,11 @@ public class SubscriptionSearchOptions {
         this.eventTypeName = eventTypeName;
     }
 
-    public SubscriptionEventTypeRes getEventType() {
-        return eventType;
+    public Boolean getWithoutEventTypes() {
+        return withoutEventTypes;
     }
 
-    public void setEventType(SubscriptionEventTypeRes eventType) {
-        this.eventType = eventType;
+    public void setWithoutEventTypes(Boolean withoutEventTypes) {
+        this.withoutEventTypes = withoutEventTypes;
     }
 }

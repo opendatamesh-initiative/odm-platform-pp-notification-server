@@ -1,8 +1,6 @@
 package org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.opendatamesh.platform.pp.notification.subscription.entities.SubscriptionEventType;
 import org.opendatamesh.platform.pp.notification.utils.resources.VersionedRes;
 
 import java.util.List;
@@ -13,18 +11,23 @@ public class SubscriptionRes extends VersionedRes {
     @Schema(description = "Unique identifier (UUID) of the subscription", example = "6e1b2a41-2f24-4b56-8a3f-2149f1d456b7")
     private String uuid;
 
-    @Schema(description = "Internal name of the subscription", example = "dataProductPolicyObserver")
+    @Schema(description = "Internal observerName of the subscription")
     private String name;
 
-    @Schema(description = "Human-readable display name of the subscription", example = "Data Product Policy Observer")
+    @Schema(description = "Human-readable display observerName of the subscription")
     private String displayName;
 
     @Schema(description = "Base URL of the observer server associated with this subscription", example = "https://observer.blindata.dev/api/v1")
     private String observerServerBaseUrl;
 
-    @JsonProperty("eventTypes")
-    @Schema(description = "List of event types this subscription is subscribed to")
+    @Schema(description = "API version of the observer server", example = "v1")
+    private String observerApiVersion;
+
+    @Schema(description = "List of event types this subscription is subscribed to.")
     private List<SubscriptionEventTypeRes> eventTypes;
+
+    public SubscriptionRes() {
+    }
 
     public String getUuid() {
         return uuid;
@@ -56,6 +59,14 @@ public class SubscriptionRes extends VersionedRes {
 
     public void setObserverServerBaseUrl(String observerServerBaseUrl) {
         this.observerServerBaseUrl = observerServerBaseUrl;
+    }
+
+    public String getObserverApiVersion() {
+        return observerApiVersion;
+    }
+
+    public void setObserverApiVersion(String observerApiVersion) {
+        this.observerApiVersion = observerApiVersion;
     }
 
     public List<SubscriptionEventTypeRes> getEventTypes() {

@@ -23,12 +23,16 @@ public class FlywayConfiguration {
     @Autowired
     private DataSource dataSource;
 
-    @Value("${spring.jpa.properties.hibernate.default_schema:public}")
+    @Value("${spring.jpa.properties.hibernate.default_schema}")
     private String defaultSchema;
 
     @Bean
     public Flyway flyway() {
         logger.info("Initializing Flyway with schema: {}", defaultSchema);
+        if (!defaultSchema.toLowerCase().equals(defaultSchema)) {
+            throw new IllegalStateException("Default schema must contain lower cases only.");
+        }
+
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
                 .schemas(defaultSchema)
@@ -42,7 +46,7 @@ public class FlywayConfiguration {
         try (var connection = dataSource.getConnection()) {
             DatabaseDriver vendor = DatabaseDriver.fromJdbcUrl(connection.getMetaData().getURL());
             if (vendor == DatabaseDriver.H2) {
-                vendor = DatabaseDriver.POSTGRESQL;
+                return DatabaseDriver.POSTGRESQL.name().toLowerCase();
             }
             if (vendor != DatabaseDriver.UNKNOWN) {
                 return vendor.name().toLowerCase();

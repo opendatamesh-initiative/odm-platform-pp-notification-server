@@ -2,12 +2,12 @@ package org.opendatamesh.platform.pp.notification.notification.entities;
 
 import jakarta.persistence.*;
 import org.opendatamesh.platform.pp.notification.event.entities.Event;
-import org.opendatamesh.platform.pp.notification.rest.v2.resources.notification.NotificationStatus;
 import org.opendatamesh.platform.pp.notification.subscription.entities.Subscription;
+import org.opendatamesh.platform.pp.notification.utils.entities.VersionedEntity;
 
 @Entity
 @Table(name = "notifications")
-public class Notification {
+public class Notification extends VersionedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

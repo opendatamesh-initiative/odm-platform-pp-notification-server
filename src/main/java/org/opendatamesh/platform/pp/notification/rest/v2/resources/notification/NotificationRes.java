@@ -12,7 +12,7 @@ public class NotificationRes extends VersionedRes {
     private Long sequenceId;
 
     @Schema(description = "Current status of the notification", example = "DELIVERED")
-    private NotificationStatus status;
+    private NotificationStatusRes status;
 
     @Schema(description = "Event associated with this notification")
     private EventRes event;
@@ -23,6 +23,9 @@ public class NotificationRes extends VersionedRes {
     @Schema(description = "Error message if notification delivery failed", example = "Connection timeout while reaching observer server")
     private String errorMessage;
 
+    public NotificationRes() {
+    }
+
     public Long getSequenceId() {
         return sequenceId;
     }
@@ -31,11 +34,11 @@ public class NotificationRes extends VersionedRes {
         this.sequenceId = sequenceId;
     }
 
-    public NotificationStatus getStatus() {
+    public NotificationStatusRes getStatus() {
         return status;
     }
 
-    public void setStatus(NotificationStatus status) {
+    public void setStatus(NotificationStatusRes status) {
         this.status = status;
     }
 

@@ -1,85 +1,34 @@
 server:
-  port: 8006
+  port: 8080
 
 spring:
+  profiles:
+    active: test
   application:
     name: odm-platform-pp-notification-server
-  
-  profiles:
-    active: dev
-
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        default_schema: public
-    show-sql: false
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
+  banner:
+    charset: UTF-8
+    mode: console
   flyway:
     enabled: true
     baseline-on-migrate: true
-    baseline-version: 0
+    locations: classpath:db/migration/postgresql
+  jpa:
+    properties:
+      hibernate:
+        default_schema: odm_notification
+        ddl-auto: validate
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-  endpoint:
-    health:
-      show-details: when-authorized
+info:
+  version: @project.version@
+  name: @project.name@
+
+application:
+  title: ODM Platform Notification Server
 
 logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
-    org.opendatamesh: DEBUG
-    org.springframework.web: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
-
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/notification_db
-    driver-class-name: org.postgresql.Driver
-    username: ${DB_USERNAME:notification_user}
-    password: ${DB_PASSWORD:notification_password}
-
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        default_schema: notification
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
