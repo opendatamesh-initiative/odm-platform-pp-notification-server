@@ -1,11 +1,11 @@
-name: odm-platform-pp-registry CI
+name: odm-platform-pp-notification CI
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
   pull_request:
     branches:
-      - 'master'
+      - 'main'
 jobs:
   build:
     runs-on: ubuntu-latest
