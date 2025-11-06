@@ -31,4 +31,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:8006/actuator/health || exit 1
 
 # Run the application
-CMD ["java", "-jar", "target/odm-platform-pp-notification-server-0.1.1.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS   -Dspring.profiles.active=$PROFILES_ACTIVE $SPRING_PROPS -jar ./application.jar" ]
