@@ -62,9 +62,14 @@ public class RestTemplateConfiguration {
     public ConnectionKeepAliveStrategy connectionKeepAliveStrategy() {
         return (httpResponse, httpContext) -> Optional.ofNullable(httpResponse.getFirstHeader(HeaderElements.KEEP_ALIVE))
                 .map(header -> {
+                    String headerValue = header.getValue();
+                    // Return null if header value is null or empty, which will fall back to default timeout
+                    if (headerValue == null || headerValue.isEmpty()) {
+                        return null;
+                    }
                     // Parse header elements using Apache HTTP utilities (e.g., "timeout=30")
                     HeaderElement[] elements = BasicHeaderValueParser.INSTANCE.parseElements(
-                            header.getValue(), null);
+                            headerValue, null);
                     return Arrays.stream(elements)
                             .filter(element -> "timeout".equalsIgnoreCase(element.getName()))
                             .map(HeaderElement::getValue)
