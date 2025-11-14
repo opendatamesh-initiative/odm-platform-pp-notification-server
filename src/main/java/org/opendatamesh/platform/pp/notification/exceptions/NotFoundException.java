@@ -1,11 +1,18 @@
 package org.opendatamesh.platform.pp.notification.exceptions;
 
-public class NotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class NotFoundException extends NotificationApiException {
     public NotFoundException(String message) {
         super(message);
     }
 
     public NotFoundException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.NOT_FOUND;
     }
 }

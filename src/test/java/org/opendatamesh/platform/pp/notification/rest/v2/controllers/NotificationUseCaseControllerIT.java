@@ -76,7 +76,7 @@ public class NotificationUseCaseControllerIT extends NotificationApplicationIT {
         String subscriptionUuid = subscription.getUuid();
 
         // Configure mock to throw exception so notification fails
-        doThrow(new RuntimeException("Connection timeout while reaching observer server"))
+        doThrow(new RuntimeException("TEST EXCEPTION!!!: Connection timeout while reaching observer server"))
                 .when(observerClient).dispatchNotification(any(Notification.class));
 
         // Emit an event

@@ -2,7 +2,7 @@ package org.opendatamesh.platform.pp.notification.rest.v2.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ErrorResponse {
+public class ErrorRes {
     @JsonProperty("status")
     private int status;
 
@@ -15,18 +15,18 @@ public class ErrorResponse {
     @JsonProperty("instance")
     private String instance;
 
-    public ErrorResponse() {
+    public ErrorRes() {
     }
 
-    public ErrorResponse(int status, String title, String detail, String instance) {
+    public ErrorRes(int status, String title, String detail, String instance) {
         this.status = status;
         this.title = title;
         this.detail = detail;
         this.instance = instance;
     }
 
-    public static ErrorResponse of(int status, String title, String detail, String instance) {
-        return new ErrorResponse(status, title, detail, instance);
+    public static ErrorRes of(int status, String title, String detail, String instance) {
+        return new ErrorRes(status, title, detail, instance);
     }
 
     // Getters and Setters

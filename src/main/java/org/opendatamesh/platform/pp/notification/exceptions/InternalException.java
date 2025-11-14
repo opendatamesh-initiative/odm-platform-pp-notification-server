@@ -1,11 +1,18 @@
 package org.opendatamesh.platform.pp.notification.exceptions;
 
-public class InternalException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class InternalException extends NotificationApiException {
     public InternalException(String message) {
         super(message);
     }
 
     public InternalException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }
