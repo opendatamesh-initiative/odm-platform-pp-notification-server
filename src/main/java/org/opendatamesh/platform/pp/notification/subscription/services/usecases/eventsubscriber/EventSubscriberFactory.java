@@ -1,4 +1,4 @@
-package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubsciber;
+package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubscriber;
 
 import org.opendatamesh.platform.pp.notification.subscription.services.core.SubscriptionService;
 import org.opendatamesh.platform.pp.notification.utils.usecases.TransactionalOutboundPort;
@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EventUnSubscriberFactory {
+public class EventSubscriberFactory {
 
     private final SubscriptionService subscriptionService;
     private final TransactionalOutboundPort transactionalOutboundPort;
 
     @Autowired
-    public EventUnSubscriberFactory(SubscriptionService subscriptionService, TransactionalOutboundPort transactionalOutboundPort) {
+    public EventSubscriberFactory(SubscriptionService subscriptionService, TransactionalOutboundPort transactionalOutboundPort) {
         this.subscriptionService = subscriptionService;
         this.transactionalOutboundPort = transactionalOutboundPort;
     }
 
-    public UseCase buildEventUnSubscriber(EventUnSubscriberCommand command, EventUnSubscriberPresenter presenter) {
-        EventUnSubscriberPersistenceOutboundPort persistencePort = new EventUnSubscriberPersistenceOutboundPortImpl(subscriptionService);
-        return new EventUnSubscriber(command, presenter, persistencePort, transactionalOutboundPort);
+    public UseCase buildEventSubscriber(EventSubscriberCommand command, EventSubscriberPresenter presenter) {
+        EventSubscriberPersistenceOutboundPort persistencePort = new EventSubscriberPersistenceOutboundPortImpl(subscriptionService);
+        return new EventSubscriber(command, presenter, persistencePort, transactionalOutboundPort);
     }
 }
 

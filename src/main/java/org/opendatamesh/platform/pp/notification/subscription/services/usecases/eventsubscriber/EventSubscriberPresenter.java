@@ -1,7 +1,7 @@
-package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubsciber;
+package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubscriber;
 
 import org.opendatamesh.platform.pp.notification.subscription.entities.Subscription;
 
-public interface EventUnSubscriberPresenter {
+public interface EventSubscriberPresenter {
     void presentUpdatedSubscription(Subscription subscription);
 }

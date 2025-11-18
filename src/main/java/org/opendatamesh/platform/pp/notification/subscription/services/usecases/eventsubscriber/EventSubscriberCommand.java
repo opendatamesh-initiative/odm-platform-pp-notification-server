@@ -1,4 +1,4 @@
-package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubsciber;
+package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubscriber;
 
 import java.util.Set;
 

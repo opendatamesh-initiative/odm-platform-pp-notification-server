@@ -1,4 +1,4 @@
-package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubsciber;
+package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubscriber;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

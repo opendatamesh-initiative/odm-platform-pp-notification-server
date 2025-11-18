@@ -180,9 +180,7 @@ Emit a new event to the notification system. When an event is emitted:
     "type": "DATA_PRODUCT_CREATED",
     "eventTypeVersion": "1.0.0",
     "eventContent": {
-      "dataProductId": "d5b5b9ac-6a73-4c73-b9ce-4bfc10a1dba0",
-      "name": "My Data Product",
-      "version": "1.0.0"
+      ... //See the specific service repository's README.md for the events signatures
     },
     "createdAt": "2024-01-15T10:30:00Z"
   }

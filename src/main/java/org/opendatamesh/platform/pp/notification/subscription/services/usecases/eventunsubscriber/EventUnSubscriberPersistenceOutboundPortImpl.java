@@ -1,4 +1,4 @@
-package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubsciber;
+package org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubscriber;
 
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.SubscriptionSearchOptions;
 import org.opendatamesh.platform.pp.notification.subscription.entities.Subscription;

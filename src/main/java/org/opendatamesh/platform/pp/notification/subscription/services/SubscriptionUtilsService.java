@@ -5,10 +5,10 @@ import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.usecases.subscribe.SubscribeResponseRes;
 import org.opendatamesh.platform.pp.notification.subscription.entities.Subscription;
 import org.opendatamesh.platform.pp.notification.subscription.entities.SubscriptionEventType;
-import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubsciber.EventSubscriberCommand;
-import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubsciber.EventSubscriberFactory;
-import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubsciber.EventUnSubscriberCommand;
-import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubsciber.EventUnSubscriberFactory;
+import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubscriber.EventSubscriberCommand;
+import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventsubscriber.EventSubscriberFactory;
+import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubscriber.EventUnSubscriberCommand;
+import org.opendatamesh.platform.pp.notification.subscription.services.usecases.eventunsubscriber.EventUnSubscriberFactory;
 import org.opendatamesh.platform.pp.notification.subscription.services.usecases.observerregister.ObserverRegisterCommand;
 import org.opendatamesh.platform.pp.notification.subscription.services.usecases.observerregister.ObserverRegisterFactory;
 import org.springframework.beans.factory.annotation.Autowired;
