@@ -140,9 +140,94 @@ Register an observer and subscribe it to specific event types.
 - If an observer with the same `observerName` already exists, it will be updated
 - If `eventTypes` is provided, the observer will be subscribed to those types and unsubscribed from any types not in the list
 - If `eventTypes` is empty or null, the observer will be subscribed to ALL events
-- The observer must expose an endpoint at `{observerBaseUrl}/api/{observerApiVersion}/pp/notification/notifications` to receive notifications
+- The observer must expose an endpoint at `{observerBaseUrl}/api/{observerApiVersion}/up/observer/notifications` to receive notifications
 
-### 2. Emit an Event
+### 2. Building a New Observer
+
+To build a new observer service that can receive notifications from the ODM Platform Notification Server, you need to:
+
+1. **Expose a notification endpoint** that accepts POST requests
+2. **Handle the notification payload** according to the API version you specified during subscription
+3. **Return an appropriate HTTP status code** (2xx for success, 4xx/5xx for errors)
+
+#### Endpoint Paths
+
+The endpoint path depends on the API version you specified when subscribing:
+
+- **V1**: `POST {observerBaseUrl}/api/v1/up/observer/notifications`
+- **V2**: `POST {observerBaseUrl}/api/v2/up/observer/notifications`
+
+#### API Signature - V2
+
+For observers using API version `v2`, the notification server will send POST requests with the following payload structure:
+
+**Request Body**:
+```json
+{
+  "sequenceId": 101,
+  "event": {
+    "sequenceId": 50,
+    "resourceType": "DATA_PRODUCT",
+    "resourceIdentifier": "d5b5b9ac-6a73-4c73-b9ce-4bfc10a1dba0",
+    "type": "DATA_PRODUCT_CREATED",
+    "version": "2.0.0",
+    "content": {
+      ...
+    }
+  },
+  "target": {
+    "name": "my-observer",
+    "displayName": "My Observer Service",
+    "baseUrl": "https://observer.example.com",
+    "apiVersion": "v2"
+  }
+}
+```
+
+**Response**: Return HTTP 200 OK (or any 2xx status) for successful processing. Return 4xx/5xx for errors.
+
+#### API Signature - V1
+
+For observers using API version `v1`, the notification server will send POST requests with the following payload structure:
+
+**Request Body**:
+```json
+{
+  "id": 101,
+  "event": {
+    "id": 50,
+    "type": "DATA_PRODUCT_CREATED",
+    "entityId": "d5b5b9ac-6a73-4c73-b9ce-4bfc10a1dba0",
+    "beforeState": {
+      ...
+    },
+    "afterState": {
+      ...
+    },
+    "time": "2024-01-15T10:30:00Z"
+  },
+  "observer": {
+    "id": 1,
+    "name": "my-observer",
+    "displayName": "My Observer Service",
+    "observerServerBaseUrl": "https://observer.example.com"
+  },
+  "receivedAt": "2024-01-15T10:30:00Z",
+  "processedAt": null
+}
+```
+
+**Response**: Return HTTP 200 OK (or any 2xx status) for successful processing. Return 4xx/5xx for errors.
+
+#### Implementation Notes
+
+- The notification server will retry failed deliveries (HTTP errors or timeouts)
+- Notifications are sent asynchronously, so your endpoint should process them quickly or queue them for later processing
+- The `event.content` (V2) or `event.beforeState` and `event.afterState`(V1) contains the event-specific payload - see the specific service repository's README.md for event content schemas
+- If your endpoint returns an error (4xx/5xx), the notification status will be marked as `FAILED_TO_PROCESS` and can be replayed later
+- If your endpoint is unreachable or times out, the notification status will be marked as `FAILED_TO_DELIVER` and can be replayed later
+
+### 3. Emit an Event
 
 Emit a new event to the notification system. When an event is emitted:
 1. The event is stored in the database
@@ -194,7 +279,7 @@ Emit a new event to the notification system. When an event is emitted:
 - Notifications are sent asynchronously, so the API returns immediately after creating the event
 - The notification delivery status is tracked separately and can be queried via the notifications API
 
-### 3. Replay a Notification
+### 4. Replay a Notification
 
 Replay a notification that previously failed to deliver or process. This operation:
 1. Resets the notification status to `PROCESSING`
