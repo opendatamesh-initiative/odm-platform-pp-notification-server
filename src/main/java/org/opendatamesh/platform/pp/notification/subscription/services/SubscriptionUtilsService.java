@@ -74,7 +74,8 @@ public class SubscriptionUtilsService {
         ObserverRegisterCommand registerCommand = new ObserverRegisterCommand(
                 subscribeCommand.getObserverName(),
                 subscribeCommand.getObserverDisplayName(),
-                subscribeCommand.getObserverBaseUrl()
+                subscribeCommand.getObserverBaseUrl(),
+                subscribeCommand.getObserverApiVersion()
         );
         observerRegisterFactory.buildObserverRegister(registerCommand, subscription::set)
                 .execute();
