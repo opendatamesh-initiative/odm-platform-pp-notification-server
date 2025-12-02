@@ -64,6 +64,7 @@ class ObserverRegister implements UseCase {
             subscription.setDisplayName(command.observerName());
         }
         subscription.setObserverServerBaseUrl(command.observerBaseUrl());
+        subscription.setObserverApiVersion(command.observerApiVersion());
         return subscription;
     }
 
