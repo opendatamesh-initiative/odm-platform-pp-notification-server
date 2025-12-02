@@ -2,7 +2,40 @@
 
 ## Overview
 
-The ODM Platform Notification Server is a microservice that provides event-driven notification capabilities for the Open Data Mesh Platform. It acts as a central hub for managing event subscriptions and delivering notifications to registered observers (subscribers).
+The ODM Platform Notification Server is a microservice that provides event-driven notification capabilities for the Open
+Data Mesh Platform. It acts as a central hub for managing event subscriptions and delivering notifications to registered
+observers (subscribers).
+
+<!-- TOC -->
+
+* [ODM Platform Notification Server](#odm-platform-notification-server)
+    * [Overview](#overview)
+        * [Key Features](#key-features)
+        * [How It Works](#how-it-works)
+    * [Setup and Start](#setup-and-start)
+        * [Prerequisites](#prerequisites)
+        * [Configuration](#configuration)
+            * [Environment Variables (Docker Profile)](#environment-variables-docker-profile)
+        * [Running Locally](#running-locally)
+            * [Option 1: Using Maven](#option-1-using-maven)
+            * [Option 2: Using Docker](#option-2-using-docker)
+            * [Option 3: Using the JAR](#option-3-using-the-jar)
+        * [Default Port](#default-port)
+        * [API Documentation](#api-documentation)
+    * [Main Use Cases](#main-use-cases)
+        * [1. Subscribe a New Observer](#1-subscribe-a-new-observer)
+        * [2. Building a New Observer](#2-building-a-new-observer)
+            * [Endpoint Paths](#endpoint-paths)
+            * [API Signature - V2](#api-signature---v2)
+            * [API Signature - V1](#api-signature---v1)
+            * [Implementation Notes](#implementation-notes)
+        * [3. Emit an Event](#3-emit-an-event)
+        * [4. Replay a Notification](#4-replay-a-notification)
+    * [Additional Endpoints](#additional-endpoints)
+    * [Architecture](#architecture)
+    * [License](#license)
+
+<!-- TOC -->
 
 ### Key Features
 
@@ -98,6 +131,7 @@ The service runs on port **8080** by default (configurable via `server.port` in 
 ### API Documentation
 
 Once the service is running, access the Swagger UI at:
+
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
 - **OpenAPI JSON**: http://localhost:8080/v3/api-docs
 
@@ -112,17 +146,22 @@ Register an observer and subscribe it to specific event types.
 **Endpoint**: `POST /api/v2/pp/notification/subscriptions/subscribe`
 
 **Request Body**:
+
 ```json
 {
   "observerName": "my-observer",
   "observerDisplayName": "My Observer Service",
   "observerBaseUrl": "https://observer.example.com",
   "observerApiVersion": "v1",
-  "eventTypes": ["DATA_PRODUCT_CREATED", "DATA_PRODUCT_UPDATED"]
+  "eventTypes": [
+    "DATA_PRODUCT_CREATED",
+    "DATA_PRODUCT_UPDATED"
+  ]
 }
 ```
 
 **Response** (201 Created):
+
 ```json
 {
   "subscription": {
@@ -131,16 +170,22 @@ Register an observer and subscribe it to specific event types.
     "displayName": "My Observer Service",
     "observerServerBaseUrl": "https://observer.example.com",
     "observerApiVersion": "v1",
-    "eventTypes": ["DATA_PRODUCT_CREATED", "DATA_PRODUCT_UPDATED"]
+    "eventTypes": [
+      "DATA_PRODUCT_CREATED",
+      "DATA_PRODUCT_UPDATED"
+    ]
   }
 }
 ```
 
 **Notes**:
+
 - If an observer with the same `observerName` already exists, it will be updated
-- If `eventTypes` is provided, the observer will be subscribed to those types and unsubscribed from any types not in the list
+- If `eventTypes` is provided, the observer will be subscribed to those types and unsubscribed from any types not in the
+  list
 - If `eventTypes` is empty or null, the observer will be subscribed to ALL events
-- The observer must expose an endpoint at `{observerBaseUrl}/api/{observerApiVersion}/up/observer/notifications` to receive notifications
+- The observer must expose an endpoint at `{observerBaseUrl}/api/{observerApiVersion}/up/observer/notifications` to
+  receive notifications
 
 ### 2. Building a New Observer
 
@@ -159,9 +204,11 @@ The endpoint path depends on the API version you specified when subscribing:
 
 #### API Signature - V2
 
-For observers using API version `v2`, the notification server will send POST requests with the following payload structure:
+For observers using API version `v2`, the notification server will send POST requests with the following payload
+structure:
 
 **Request Body**:
+
 ```json
 {
   "sequenceId": 101,
@@ -188,9 +235,11 @@ For observers using API version `v2`, the notification server will send POST req
 
 #### API Signature - V1
 
-For observers using API version `v1`, the notification server will send POST requests with the following payload structure:
+For observers using API version `v1`, the notification server will send POST requests with the following payload
+structure:
 
 **Request Body**:
+
 ```json
 {
   "id": 101,
@@ -221,15 +270,23 @@ For observers using API version `v1`, the notification server will send POST req
 
 #### Implementation Notes
 
-- The notification server will retry failed deliveries (HTTP errors or timeouts)
-- Notifications are sent asynchronously, so your endpoint should process them quickly or queue them for later processing
-- The `event.content` (V2) or `event.beforeState` and `event.afterState`(V1) contains the event-specific payload - see the specific service repository's README.md for event content schemas
-- If your endpoint returns an error (4xx/5xx), the notification status will be marked as `FAILED_TO_PROCESS` and can be replayed later
-- If your endpoint is unreachable or times out, the notification status will be marked as `FAILED_TO_DELIVER` and can be replayed later
+- Notifications are sent synchronously, so your endpoint should return as soon as possible and process them in a
+  separate thread
+- The `event.content` (V2) or `event.beforeState` and `event.afterState`(V1) contains the event-specific payload - see
+  the specific service repository's README.md for event content schemas
+- If your endpoint returns any type of error (4xx/5xx) or it is unreachable/times out, the notification status will be
+  marked as `FAILED_TO_DELIVER` and can be
+  replayed later
+- After a Notification has been processed, the Observer should update the notification by calling the endpoint
+  `PUT /api/v2/pp/notification/notifications/{notificationSequenceId}` overriding the Notification object with the
+  status set at `PROCESSED` if everything went ok, `FAILED_TO_PROCESS` if an error occurred during the notification
+  processing. In the last case it is also possible to specify the case of the error in the `errorMessage` field of the
+  Notification.
 
 ### 3. Emit an Event
 
 Emit a new event to the notification system. When an event is emitted:
+
 1. The event is stored in the database
 2. The system finds all observers subscribed to the event type (or subscribed to all events)
 3. For each subscribed observer, a notification is created with status `PROCESSING`
@@ -239,6 +296,7 @@ Emit a new event to the notification system. When an event is emitted:
 **Endpoint**: `POST /api/v2/pp/notification/events/emit`
 
 **Request Body**:
+
 ```json
 {
   "event": {
@@ -256,6 +314,7 @@ Emit a new event to the notification system. When an event is emitted:
 ```
 
 **Response** (201 Created):
+
 ```json
 {
   "event": {
@@ -265,7 +324,8 @@ Emit a new event to the notification system. When an event is emitted:
     "type": "DATA_PRODUCT_CREATED",
     "eventTypeVersion": "1.0.0",
     "eventContent": {
-      ... //See the specific service repository's README.md for the events signatures
+      ...
+      //See the specific service repository's README.md for the events signatures
     },
     "createdAt": "2024-01-15T10:30:00Z"
   }
@@ -273,6 +333,7 @@ Emit a new event to the notification system. When an event is emitted:
 ```
 
 **What Happens**:
+
 - The event is persisted and assigned a unique `sequenceId`
 - All observers subscribed to `DATA_PRODUCT_CREATED` (or subscribed to all events) receive a notification
 - Each notification contains the full event details
@@ -282,6 +343,7 @@ Emit a new event to the notification system. When an event is emitted:
 ### 4. Replay a Notification
 
 Replay a notification that previously failed to deliver or process. This operation:
+
 1. Resets the notification status to `PROCESSING`
 2. Clears any previous error messages
 3. Dispatches the notification again to the observer
@@ -290,6 +352,7 @@ Replay a notification that previously failed to deliver or process. This operati
 **Endpoint**: `POST /api/v2/pp/notification/notifications/replay`
 
 **Request Body**:
+
 ```json
 {
   "notificationSequenceId": 101
@@ -297,6 +360,7 @@ Replay a notification that previously failed to deliver or process. This operati
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "notification": {
@@ -317,12 +381,8 @@ Replay a notification that previously failed to deliver or process. This operati
 }
 ```
 
-**Use Cases**:
-- **Failed Delivery**: Notifications with status `FAILED_TO_DELIVER` (e.g., network error, observer unreachable)
-- **Failed Processing**: Notifications with status `FAILED_TO_PROCESS` (e.g., observer returned an error)
-- **Manual Retry**: Replay notifications with any status (a warning will be logged for non-failed notifications)
-
 **Notes**:
+
 - The notification is dispatched only to the observer associated with the notification
 - If the replay dispatch fails, the notification status will be updated to `FAILED_TO_DELIVER` with the error message
 - The notification's error message is cleared during replay and will be populated again only if the dispatch fails
@@ -330,8 +390,10 @@ Replay a notification that previously failed to deliver or process. This operati
 ## Additional Endpoints
 
 The service also provides endpoints for:
+
 - **Querying Events**: `GET /api/v2/pp/notification/events` (with filtering)
-- **Querying Notifications**: `GET /api/v2/pp/notification/notifications` (with filtering by subscription, event type, status)
+- **Querying Notifications**: `GET /api/v2/pp/notification/notifications` (with filtering by subscription, event type,
+  status)
 - **Querying Subscriptions**: `GET /api/v2/pp/notification/subscriptions` (with filtering)
 - **Managing Subscriptions**: Update, delete, and search subscriptions
 
