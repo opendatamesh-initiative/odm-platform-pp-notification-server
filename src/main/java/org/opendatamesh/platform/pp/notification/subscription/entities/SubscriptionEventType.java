@@ -10,7 +10,7 @@ public class SubscriptionEventType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sequenceId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "subscription_uuid", referencedColumnName = "uuid")
     private Subscription subscription;
 

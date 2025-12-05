@@ -3,6 +3,8 @@ package org.opendatamesh.platform.pp.notification.rest.v2.controllers;
 import org.junit.jupiter.api.Test;
 import org.opendatamesh.platform.pp.notification.rest.NotificationApplicationIT;
 import org.opendatamesh.platform.pp.notification.rest.RoutesV2;
+import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.SubscriptionEventTypeRes;
+import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.SubscriptionRes;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.usecases.subscribe.SubscribeCommandRes;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription.usecases.subscribe.SubscribeResponseRes;
 import org.springframework.http.HttpEntity;
@@ -10,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -146,6 +150,52 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
         assertThat(updatedSubscription.getEventTypes())
                 .containsExactlyInAnyOrderElementsOf(updateCommand.getEventTypes());
         assertThat(updatedSubscription.getEventTypes()).doesNotContain("DATA_PRODUCT_DELETED");
+
+        // Cleanup
+        rest.delete(apiUrl(RoutesV2.SUBSCRIPTIONS, "/" + subscriptionUuid));
+    }
+
+    @Test
+    public void whenSubscribeObserverWithEventTypesThenFetchSubscriptionHasEventTypes() {
+        // Given - Create subscription with event types using subscribe endpoint
+        SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
+        subscribeCommand.setObserverName("test-observer-4");
+        subscribeCommand.setObserverDisplayName("Test Observer 4");
+        subscribeCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
+        subscribeCommand.setObserverApiVersion("v1");
+        List<String> expectedEventTypes = Arrays.asList("DATA_PRODUCT_CREATED", "DATA_PRODUCT_UPDATED", "DATA_PRODUCT_DELETED");
+        subscribeCommand.setEventTypes(expectedEventTypes);
+
+        ResponseEntity<SubscribeResponseRes> subscribeResponse = rest.postForEntity(
+                apiUrl(RoutesV2.SUBSCRIPTIONS, "/subscribe"),
+                new HttpEntity<>(subscribeCommand),
+                SubscribeResponseRes.class
+        );
+        assertThat(subscribeResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(subscribeResponse.getBody()).isNotNull();
+        assertThat(subscribeResponse.getBody().getSubscription()).isNotNull();
+        String subscriptionUuid = subscribeResponse.getBody().getSubscription().getUuid();
+        assertThat(subscriptionUuid).isNotNull();
+
+        // When - Fetch the subscription using the GET endpoint
+        ResponseEntity<SubscriptionRes> getResponse = rest.getForEntity(
+                apiUrl(RoutesV2.SUBSCRIPTIONS, "/" + subscriptionUuid),
+                SubscriptionRes.class
+        );
+
+        // Then - Verify that the fetched subscription has the expected event types
+        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(getResponse.getBody()).isNotNull();
+        SubscriptionRes fetchedSubscription = getResponse.getBody();
+        assertThat(fetchedSubscription.getUuid()).isEqualTo(subscriptionUuid);
+        assertThat(fetchedSubscription.getEventTypes()).isNotNull();
+        assertThat(fetchedSubscription.getEventTypes()).hasSize(expectedEventTypes.size());
+        
+        // Extract event type strings from SubscriptionEventTypeRes objects
+        List<String> fetchedEventTypes = fetchedSubscription.getEventTypes().stream()
+                .map(SubscriptionEventTypeRes::getEventType)
+                .collect(Collectors.toList());
+        assertThat(fetchedEventTypes).containsExactlyInAnyOrderElementsOf(expectedEventTypes);
 
         // Cleanup
         rest.delete(apiUrl(RoutesV2.SUBSCRIPTIONS, "/" + subscriptionUuid));

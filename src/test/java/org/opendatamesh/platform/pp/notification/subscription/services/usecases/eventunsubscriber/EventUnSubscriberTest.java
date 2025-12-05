@@ -173,11 +173,11 @@ class EventUnSubscriberTest {
         verify(presenter).presentUpdatedSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getEventTypes()).hasSize(2);
+        assertThat(savedSubscription.getEventTypes()).hasSize(1);
         assertThat(savedSubscription.getEventTypes().stream()
                 .map(SubscriptionEventType::getEventType)
                 .toList())
-                .containsExactlyInAnyOrder("EVENT_TYPE_1", "EVENT_TYPE_2");
+                .containsExactly("EVENT_TYPE_3");
     }
 
     @Test
@@ -202,7 +202,11 @@ class EventUnSubscriberTest {
         verify(presenter).presentUpdatedSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getEventTypes()).isEmpty();
+        assertThat(savedSubscription.getEventTypes()).hasSize(2);
+        assertThat(savedSubscription.getEventTypes().stream()
+                .map(SubscriptionEventType::getEventType)
+                .toList())
+                .containsExactlyInAnyOrder("EVENT_TYPE_1", "EVENT_TYPE_2");
     }
 
     @Test
@@ -228,11 +232,7 @@ class EventUnSubscriberTest {
         verify(presenter).presentUpdatedSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getEventTypes()).hasSize(3);
-        assertThat(savedSubscription.getEventTypes().stream()
-                .map(SubscriptionEventType::getEventType)
-                .toList())
-                .containsExactlyInAnyOrder("EVENT_TYPE_1", "EVENT_TYPE_2", "EVENT_TYPE_3");
+        assertThat(savedSubscription.getEventTypes()).isEmpty();
     }
 
     @Test
@@ -258,8 +258,11 @@ class EventUnSubscriberTest {
         verify(presenter).presentUpdatedSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getEventTypes()).hasSize(1);
-        assertThat(savedSubscription.getEventTypes().get(0).getEventType()).isEqualTo("EVENT_TYPE_2");
+        assertThat(savedSubscription.getEventTypes()).hasSize(2);
+        assertThat(savedSubscription.getEventTypes().stream()
+                .map(SubscriptionEventType::getEventType)
+                .toList())
+                .containsExactlyInAnyOrder("EVENT_TYPE_1", "EVENT_TYPE_3");
     }
 
     @Test
