@@ -51,7 +51,7 @@ class ObserverRegister implements UseCase {
     private void createNewSubscription() {
         Subscription subscriptionToCreate = buildNewSubscriptionFromCommand();
         Subscription subscription = persistencePort.create(subscriptionToCreate);
-        logger.info("{} Observer '{}' registered on '{}'", USE_CASE_PREFIX, subscription.getDisplayName(), subscription.getObserverServerBaseUrl());
+        logger.info("{} Observer '{}' registered on '{}'", USE_CASE_PREFIX, subscription.getDisplayName(), subscription.getObserverBaseUrl());
         presenter.presentSubscription(subscription);
     }
 
@@ -63,14 +63,14 @@ class ObserverRegister implements UseCase {
         } else {
             subscription.setDisplayName(command.observerName());
         }
-        subscription.setObserverServerBaseUrl(command.observerBaseUrl());
+        subscription.setObserverBaseUrl(command.observerBaseUrl());
         subscription.setObserverApiVersion(command.observerApiVersion());
         return subscription;
     }
 
     private void updateExistingSubscription(Subscription subscription) {
-        logger.warn("{} Observer '{}' already registered, changing base url from '{}' to '{}'", USE_CASE_PREFIX, subscription.getDisplayName(), subscription.getObserverServerBaseUrl(), command.observerBaseUrl());
-        subscription.setObserverServerBaseUrl(command.observerBaseUrl());
+        logger.warn("{} Observer '{}' already registered, changing base url from '{}' to '{}'", USE_CASE_PREFIX, subscription.getDisplayName(), subscription.getObserverBaseUrl(), command.observerBaseUrl());
+        subscription.setObserverBaseUrl(command.observerBaseUrl());
         if (StringUtils.hasText(command.observerDisplayName())) {
             subscription.setDisplayName(command.observerDisplayName());
         }

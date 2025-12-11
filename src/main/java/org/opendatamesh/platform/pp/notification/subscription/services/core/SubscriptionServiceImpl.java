@@ -55,10 +55,10 @@ public class SubscriptionServiceImpl extends GenericMappedAndFilteredCrudService
         }
         if (!StringUtils.hasText(objectToValidate.getName())) {
             throw new BadRequestException(
-                    "Subscription observerName cannot be null"
+                    "Subscription name cannot be null"
             );
         }
-        if (!StringUtils.hasText(objectToValidate.getObserverServerBaseUrl())) {
+        if (!StringUtils.hasText(objectToValidate.getObserverBaseUrl())) {
             throw new BadRequestException(
                     "Subscription server base URL cannot be null"
             );
@@ -127,7 +127,7 @@ public class SubscriptionServiceImpl extends GenericMappedAndFilteredCrudService
 
         if (existsByName) {
             throw new ResourceConflictException(
-                    String.format("A subscription with observerName '%s' already exists",
+                    String.format("A subscription with name '%s' already exists",
                             subscription.getName()));
         }
     }

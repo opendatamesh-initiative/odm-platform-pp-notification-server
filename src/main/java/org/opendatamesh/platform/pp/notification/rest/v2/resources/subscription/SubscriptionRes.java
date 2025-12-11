@@ -11,14 +11,14 @@ public class SubscriptionRes extends VersionedRes {
     @Schema(description = "Unique identifier (UUID) of the subscription", example = "6e1b2a41-2f24-4b56-8a3f-2149f1d456b7")
     private String uuid;
 
-    @Schema(description = "Internal observerName of the subscription")
+    @Schema(description = "Internal name of the subscription")
     private String name;
 
-    @Schema(description = "Human-readable display observerName of the subscription")
+    @Schema(description = "Human-readable display name of the subscription")
     private String displayName;
 
     @Schema(description = "Base URL of the observer server associated with this subscription", example = "https://observer.blindata.dev/api/v1")
-    private String observerServerBaseUrl;
+    private String observerBaseUrl;
 
     @Schema(description = "API version of the observer server", example = "v1")
     private String observerApiVersion;
@@ -53,12 +53,12 @@ public class SubscriptionRes extends VersionedRes {
         this.displayName = displayName;
     }
 
-    public String getObserverServerBaseUrl() {
-        return observerServerBaseUrl;
+    public String getObserverBaseUrl() {
+        return observerBaseUrl;
     }
 
-    public void setObserverServerBaseUrl(String observerServerBaseUrl) {
-        this.observerServerBaseUrl = observerServerBaseUrl;
+    public void setObserverBaseUrl(String observerBaseUrl) {
+        this.observerBaseUrl = observerBaseUrl;
     }
 
     public String getObserverApiVersion() {

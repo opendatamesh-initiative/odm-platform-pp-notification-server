@@ -45,8 +45,8 @@ public class SubscriptionController {
     }
 
     @Operation(summary = "Search subscriptions", description = "Retrieves a paginated list of subscriptions based on search criteria. " +
-            "The results can be sorted by any of the following properties: uuid, observerName, displayName, createdAt, updatedAt. " +
-            "Sort direction can be specified using 'asc' or 'desc' (e.g., 'sort=observerName,desc').")
+            "The results can be sorted by any of the following properties: uuid, name, displayName, createdAt, updatedAt. " +
+            "Sort direction can be specified using 'asc' or 'desc' (e.g., 'sort=name,desc').")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Subscriptions found",
                     content = @Content(schema = @Schema(implementation = Page.class))),
@@ -59,7 +59,7 @@ public class SubscriptionController {
             @Parameter(description = "Search options for filtering subscriptions")
             SubscriptionSearchOptions searchOptions,
             @Parameter(description = "Pagination and sorting parameters. Default sort is by createdAt in descending order. " +
-                    "Valid sort properties are: uuid, observerName, displayName, createdAt, updatedAt")
+                    "Valid sort properties are: uuid, name, displayName, createdAt, updatedAt")
             @PageableDefault(page = 0, size = 20, sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable
     ) {

@@ -89,8 +89,8 @@ public class EventUseCaseControllerIT extends NotificationApplicationIT {
     public void whenEmitEventWithSubscriptionThenObserverClientIsCalled() {
         // Given - Create subscription for the event type
         SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
-        subscribeCommand.setObserverName("test-observer-emit");
-        subscribeCommand.setObserverDisplayName("Test Observer for Emit");
+        subscribeCommand.setName("test-observer-emit");
+        subscribeCommand.setDisplayName("Test Observer for Emit");
         subscribeCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
         subscribeCommand.setObserverApiVersion("v1");
         subscribeCommand.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED"));
@@ -143,7 +143,7 @@ public class EventUseCaseControllerIT extends NotificationApplicationIT {
         assertThat(dispatchedNotification.getEvent().getType()).isEqualTo("DATA_PRODUCT_CREATED");
         assertThat(dispatchedNotification.getSubscription()).isNotNull();
         assertThat(dispatchedNotification.getSubscription().getUuid()).isEqualTo(subscriptionUuid);
-        assertThat(dispatchedNotification.getSubscription().getName()).isEqualTo(subscribeCommand.getObserverName());
+        assertThat(dispatchedNotification.getSubscription().getName()).isEqualTo(subscribeCommand.getName());
 
         // Cleanup
         rest.delete(apiUrl(RoutesV2.EVENTS, "/" + createdEvent.getSequenceId()));
@@ -204,8 +204,8 @@ public class EventUseCaseControllerIT extends NotificationApplicationIT {
     public void whenObserverThrowsExceptionThenEventIsCreatedAndOtherObserversAreStillCalled() {
         // Given - Create two subscriptions for the event type
         SubscribeCommandRes subscribeCommand1 = new SubscribeCommandRes();
-        subscribeCommand1.setObserverName("test-observer-failing");
-        subscribeCommand1.setObserverDisplayName("Test Observer Failing");
+        subscribeCommand1.setName("test-observer-failing");
+        subscribeCommand1.setDisplayName("Test Observer Failing");
         subscribeCommand1.setObserverBaseUrl("https://observer-failing.example.com/api/v1");
         subscribeCommand1.setObserverApiVersion("v1");
         subscribeCommand1.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED"));
@@ -221,8 +221,8 @@ public class EventUseCaseControllerIT extends NotificationApplicationIT {
         String subscriptionUuid1 = subscriptionResponse1.getBody().getSubscription().getUuid();
 
         SubscribeCommandRes subscribeCommand2 = new SubscribeCommandRes();
-        subscribeCommand2.setObserverName("test-observer-success");
-        subscribeCommand2.setObserverDisplayName("Test Observer Success");
+        subscribeCommand2.setName("test-observer-success");
+        subscribeCommand2.setDisplayName("Test Observer Success");
         subscribeCommand2.setObserverBaseUrl("https://observer-success.example.com/api/v1");
         subscribeCommand2.setObserverApiVersion("v1");
         subscribeCommand2.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED"));

@@ -16,7 +16,7 @@ public class ObserverV1Mapper {
         observerResV1.setId(id);
         observerResV1.setName(subscriptionRes.getName());
         observerResV1.setDisplayName(subscriptionRes.getDisplayName());
-        observerResV1.setObserverServerBaseUrl(subscriptionRes.getObserverServerBaseUrl());
+        observerResV1.setObserverServerBaseUrl(subscriptionRes.getObserverBaseUrl());
         if (subscriptionRes.getCreatedAt() != null) {
             observerResV1.setCreatedAt(new Date(subscriptionRes.getCreatedAt().getTime()));
         }
@@ -30,7 +30,7 @@ public class ObserverV1Mapper {
         SubscriptionRes subscriptionRes = new SubscriptionRes();
         subscriptionRes.setName(observerResV1.getName());
         subscriptionRes.setDisplayName(observerResV1.getDisplayName());
-        subscriptionRes.setObserverServerBaseUrl(observerResV1.getObserverServerBaseUrl());
+        subscriptionRes.setObserverBaseUrl(observerResV1.getObserverServerBaseUrl());
         // Set default API version to V1 for V1 observers
         subscriptionRes.setObserverApiVersion("V1");
         return subscriptionRes;
@@ -38,8 +38,8 @@ public class ObserverV1Mapper {
 
     public SubscribeCommandRes toSubscribeCommandRes(ObserverResV1 observerResV1) {
         SubscribeCommandRes subscriptionCommandRes = new SubscribeCommandRes();
-        subscriptionCommandRes.setObserverName(observerResV1.getName());
-        subscriptionCommandRes.setObserverDisplayName(observerResV1.getDisplayName());
+        subscriptionCommandRes.setName(observerResV1.getName());
+        subscriptionCommandRes.setDisplayName(observerResV1.getDisplayName());
         subscriptionCommandRes.setObserverBaseUrl(observerResV1.getObserverServerBaseUrl());
         subscriptionCommandRes.setObserverApiVersion("V1");
         return subscriptionCommandRes;
@@ -48,8 +48,8 @@ public class ObserverV1Mapper {
     public ObserverResV1 toObserverResV1(SubscribeResponseRes subscribeResponseRes, Long id) {
         ObserverResV1 observerResV1 = new ObserverResV1();
         observerResV1.setId(id);
-        observerResV1.setName(subscribeResponseRes.getSubscription().getObserverName());
-        observerResV1.setDisplayName(subscribeResponseRes.getSubscription().getObserverDisplayName());
+        observerResV1.setName(subscribeResponseRes.getSubscription().getName());
+        observerResV1.setDisplayName(subscribeResponseRes.getSubscription().getDisplayName());
         observerResV1.setObserverServerBaseUrl(subscribeResponseRes.getSubscription().getObserverBaseUrl());
         return observerResV1;
     }

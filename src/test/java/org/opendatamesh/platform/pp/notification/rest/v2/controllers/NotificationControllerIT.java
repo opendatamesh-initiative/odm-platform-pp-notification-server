@@ -326,7 +326,7 @@ public class NotificationControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription = new SubscriptionRes();
         subscription.setName("test-subscription");
         subscription.setDisplayName("Test Subscription");
-        subscription.setObserverServerBaseUrl("https://observer.example.com/api/v1");
+        subscription.setObserverBaseUrl("https://observer.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes = new ArrayList<>();
         SubscriptionEventTypeRes eventType = new SubscriptionEventTypeRes();

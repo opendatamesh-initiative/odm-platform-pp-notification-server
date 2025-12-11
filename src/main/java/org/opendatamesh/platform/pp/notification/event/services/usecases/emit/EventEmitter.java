@@ -91,7 +91,7 @@ class EventEmitter implements UseCase {
             try {
                 observerClient.dispatchNotification(notification);
                 logger.info("{} Successfully dispatched notification {} to observer: {} at {}",
-                        USE_CASE_PREFIX, notification.getSequenceId(), subscription.getDisplayName(), subscription.getObserverServerBaseUrl());
+                        USE_CASE_PREFIX, notification.getSequenceId(), subscription.getDisplayName(), subscription.getObserverBaseUrl());
                 // Note: We don't update the notification here to avoid race condition with observer
                 // Only update on failure to avoid conflicts with observer's status updates
             } catch (Exception e) {

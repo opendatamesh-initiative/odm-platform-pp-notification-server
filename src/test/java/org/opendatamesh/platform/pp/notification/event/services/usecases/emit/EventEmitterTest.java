@@ -80,7 +80,7 @@ class EventEmitterTest {
         subscription = new Subscription();
         subscription.setName("test-observer");
         subscription.setDisplayName("Test Observer");
-        subscription.setObserverServerBaseUrl("https://observer.example.com");
+        subscription.setObserverBaseUrl("https://observer.example.com");
 
         lenient().doAnswer(invocation -> {
             Runnable runnable = invocation.getArgument(0);
@@ -450,11 +450,11 @@ class EventEmitterTest {
 
         Subscription subscription1 = new Subscription();
         subscription1.setName("observer-1");
-        subscription1.setObserverServerBaseUrl("https://observer1.example.com");
+        subscription1.setObserverBaseUrl("https://observer1.example.com");
 
         Subscription subscription2 = new Subscription();
         subscription2.setName("observer-2");
-        subscription2.setObserverServerBaseUrl("https://observer2.example.com");
+        subscription2.setObserverBaseUrl("https://observer2.example.com");
 
         List<Subscription> subscriptions = new ArrayList<>();
         subscriptions.add(subscription1);

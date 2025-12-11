@@ -49,7 +49,7 @@ class EventSubscriberTest {
         subscription = new Subscription();
         subscription.setName("test-observer");
         subscription.setDisplayName("Test Observer");
-        subscription.setObserverServerBaseUrl("https://observer.example.com");
+        subscription.setObserverBaseUrl("https://observer.example.com");
 
         existingEventTypes = new ArrayList<>();
         subscription.setEventTypes(existingEventTypes);

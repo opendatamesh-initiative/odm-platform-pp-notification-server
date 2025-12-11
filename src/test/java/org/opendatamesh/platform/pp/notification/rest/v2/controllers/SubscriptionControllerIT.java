@@ -23,7 +23,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription = new SubscriptionRes();
         subscription.setName("test-subscription");
         subscription.setDisplayName("Test Subscription");
-        subscription.setObserverServerBaseUrl("https://observer.example.com/api/v1");
+        subscription.setObserverBaseUrl("https://observer.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes = new ArrayList<>();
         SubscriptionEventTypeRes eventType = new SubscriptionEventTypeRes();
@@ -56,7 +56,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription = new SubscriptionRes();
         subscription.setName("test-subscription");
         subscription.setDisplayName("Test Subscription");
-        subscription.setObserverServerBaseUrl("https://observer.example.com/api/v1");
+        subscription.setObserverBaseUrl("https://observer.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes = new ArrayList<>();
         SubscriptionEventTypeRes eventType = new SubscriptionEventTypeRes();
@@ -110,7 +110,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription1 = new SubscriptionRes();
         subscription1.setName("test-subscription-1");
         subscription1.setDisplayName("Test Subscription 1");
-        subscription1.setObserverServerBaseUrl("https://observer1.example.com/api/v1");
+        subscription1.setObserverBaseUrl("https://observer1.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes1 = new ArrayList<>();
         SubscriptionEventTypeRes eventType1 = new SubscriptionEventTypeRes();
@@ -130,7 +130,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription2 = new SubscriptionRes();
         subscription2.setName("test-subscription-2");
         subscription2.setDisplayName("Test Subscription 2");
-        subscription2.setObserverServerBaseUrl("https://observer2.example.com/api/v1");
+        subscription2.setObserverBaseUrl("https://observer2.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes2 = new ArrayList<>();
         SubscriptionEventTypeRes eventType2 = new SubscriptionEventTypeRes();
@@ -167,7 +167,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes initialSubscription = new SubscriptionRes();
         initialSubscription.setName("test-subscription");
         initialSubscription.setDisplayName("Initial Display Name");
-        initialSubscription.setObserverServerBaseUrl("https://observer.example.com/api/v1");
+        initialSubscription.setObserverBaseUrl("https://observer.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes = new ArrayList<>();
         SubscriptionEventTypeRes eventType = new SubscriptionEventTypeRes();
@@ -187,7 +187,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes updatedSubscription = new SubscriptionRes();
         updatedSubscription.setName("test-subscription");
         updatedSubscription.setDisplayName("Updated Display Name");
-        updatedSubscription.setObserverServerBaseUrl("https://observer-updated.example.com/api/v1");
+        updatedSubscription.setObserverBaseUrl("https://observer-updated.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> updatedEventTypes = new ArrayList<>();
         SubscriptionEventTypeRes updatedEventType = new SubscriptionEventTypeRes();
@@ -208,7 +208,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getUuid()).isEqualTo(subscriptionId);
         assertThat(response.getBody().getDisplayName()).isEqualTo("Updated Display Name");
-        assertThat(response.getBody().getObserverServerBaseUrl()).isEqualTo("https://observer-updated.example.com/api/v1");
+        assertThat(response.getBody().getObserverBaseUrl()).isEqualTo("https://observer-updated.example.com/api/v1");
         assertThat(response.getBody().getObserverApiVersion()).isEqualTo("V1"); // Default value
 
         // Cleanup
@@ -221,7 +221,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription = new SubscriptionRes();
         subscription.setName("test-subscription-with-version");
         subscription.setDisplayName("Test Subscription With Version");
-        subscription.setObserverServerBaseUrl("https://observer.example.com/api/v2");
+        subscription.setObserverBaseUrl("https://observer.example.com/api/v2");
         subscription.setObserverApiVersion("v2");
 
         List<SubscriptionEventTypeRes> eventTypes = new ArrayList<>();
@@ -255,7 +255,7 @@ public class SubscriptionControllerIT extends NotificationApplicationIT {
         SubscriptionRes subscription = new SubscriptionRes();
         subscription.setName("test-subscription");
         subscription.setDisplayName("Test Subscription");
-        subscription.setObserverServerBaseUrl("https://observer.example.com/api/v1");
+        subscription.setObserverBaseUrl("https://observer.example.com/api/v1");
 
         List<SubscriptionEventTypeRes> eventTypes = new ArrayList<>();
         SubscriptionEventTypeRes eventType = new SubscriptionEventTypeRes();

@@ -23,8 +23,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
     public void whenSubscribeObserverWithEventTypesThenReturnSubscription() {
         // Given
         SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
-        subscribeCommand.setObserverName("test-observer-1");
-        subscribeCommand.setObserverDisplayName("Test Observer 1");
+        subscribeCommand.setName("test-observer-1");
+        subscribeCommand.setDisplayName("Test Observer 1");
         subscribeCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
         subscribeCommand.setObserverApiVersion("v1");
         subscribeCommand.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED", "DATA_PRODUCT_UPDATED"));
@@ -43,8 +43,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
         assertThat(responseBody.getSubscription()).isNotNull();
         SubscribeResponseRes.Subscription subscription = responseBody.getSubscription();
         assertThat(subscription.getUuid()).isNotNull();
-        assertThat(subscription.getObserverName()).isEqualTo(subscribeCommand.getObserverName());
-        assertThat(subscription.getObserverDisplayName()).isEqualTo(subscribeCommand.getObserverDisplayName());
+        assertThat(subscription.getName()).isEqualTo(subscribeCommand.getName());
+        assertThat(subscription.getDisplayName()).isEqualTo(subscribeCommand.getDisplayName());
         assertThat(subscription.getObserverBaseUrl()).isEqualTo(subscribeCommand.getObserverBaseUrl());
         assertThat(subscription.getObserverApiVersion()).isEqualTo("V1"); // API version is normalized to uppercase
         assertThat(subscription.getEventTypes()).containsExactlyInAnyOrderElementsOf(subscribeCommand.getEventTypes());
@@ -57,8 +57,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
     public void whenSubscribeObserverWithoutEventTypesThenReturnSubscription() {
         // Given
         SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
-        subscribeCommand.setObserverName("test-observer-2");
-        subscribeCommand.setObserverDisplayName("Test Observer 2");
+        subscribeCommand.setName("test-observer-2");
+        subscribeCommand.setDisplayName("Test Observer 2");
         subscribeCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
 
         // When
@@ -75,8 +75,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
         assertThat(responseBody.getSubscription()).isNotNull();
         SubscribeResponseRes.Subscription subscription = responseBody.getSubscription();
         assertThat(subscription.getUuid()).isNotNull();
-        assertThat(subscription.getObserverName()).isEqualTo(subscribeCommand.getObserverName());
-        assertThat(subscription.getObserverDisplayName()).isEqualTo(subscribeCommand.getObserverDisplayName());
+        assertThat(subscription.getName()).isEqualTo(subscribeCommand.getName());
+        assertThat(subscription.getDisplayName()).isEqualTo(subscribeCommand.getDisplayName());
         assertThat(subscription.getObserverBaseUrl()).isEqualTo(subscribeCommand.getObserverBaseUrl());
 
         // Cleanup
@@ -87,8 +87,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
     public void whenSubscribeObserverWithMissingRequiredFieldThenReturnBadRequest() {
         // Given
         SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
-        subscribeCommand.setObserverDisplayName("Test Observer");
-        // Missing observerName and observerBaseUrl
+        subscribeCommand.setDisplayName("Test Observer");
+        // Missing name and observerBaseUrl
 
         // When
         ResponseEntity<String> response = rest.postForEntity(
@@ -105,8 +105,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
     public void whenSubscribeExistingObserverWithDifferentEventTypesThenUpdateEventTypes() {
         // Given - Create initial subscription with some event types
         SubscribeCommandRes initialCommand = new SubscribeCommandRes();
-        initialCommand.setObserverName("test-observer-3");
-        initialCommand.setObserverDisplayName("Test Observer 3");
+        initialCommand.setName("test-observer-3");
+        initialCommand.setDisplayName("Test Observer 3");
         initialCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
         initialCommand.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED", "DATA_PRODUCT_DELETED"));
 
@@ -126,8 +126,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
 
         // When - Subscribe again with different event types
         SubscribeCommandRes updateCommand = new SubscribeCommandRes();
-        updateCommand.setObserverName("test-observer-3");
-        updateCommand.setObserverDisplayName("Test Observer 3 Updated");
+        updateCommand.setName("test-observer-3");
+        updateCommand.setDisplayName("Test Observer 3 Updated");
         updateCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
         updateCommand.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED", "DATA_PRODUCT_UPDATED"));
 
@@ -144,8 +144,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
         assertThat(updateResponseBody.getSubscription()).isNotNull();
         SubscribeResponseRes.Subscription updatedSubscription = updateResponseBody.getSubscription();
         assertThat(updatedSubscription.getUuid()).isEqualTo(subscriptionUuid);
-        assertThat(updatedSubscription.getObserverName()).isEqualTo(updateCommand.getObserverName());
-        assertThat(updatedSubscription.getObserverDisplayName()).isEqualTo(updateCommand.getObserverDisplayName());
+        assertThat(updatedSubscription.getName()).isEqualTo(updateCommand.getName());
+        assertThat(updatedSubscription.getDisplayName()).isEqualTo(updateCommand.getDisplayName());
         // Verify event types: should have CREATED (kept), UPDATED (added), and not have DELETED (removed)
         assertThat(updatedSubscription.getEventTypes())
                 .containsExactlyInAnyOrderElementsOf(updateCommand.getEventTypes());
@@ -159,8 +159,8 @@ public class SubscriptionUseCaseControllerIT extends NotificationApplicationIT {
     public void whenSubscribeObserverWithEventTypesThenFetchSubscriptionHasEventTypes() {
         // Given - Create subscription with event types using subscribe endpoint
         SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
-        subscribeCommand.setObserverName("test-observer-4");
-        subscribeCommand.setObserverDisplayName("Test Observer 4");
+        subscribeCommand.setName("test-observer-4");
+        subscribeCommand.setDisplayName("Test Observer 4");
         subscribeCommand.setObserverBaseUrl("https://observer.example.com/api/v1");
         subscribeCommand.setObserverApiVersion("v1");
         List<String> expectedEventTypes = Arrays.asList("DATA_PRODUCT_CREATED", "DATA_PRODUCT_UPDATED", "DATA_PRODUCT_DELETED");

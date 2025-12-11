@@ -47,7 +47,7 @@ public class SubscriptionUtilsService {
     private void subscribeToEventTypes(SubscribeCommandRes subscribeCommand, AtomicReference<Subscription> subscription) {
         if (!subscribeCommand.getEventTypes().isEmpty()) {
             eventSubscriberFactory.buildEventSubscriber(
-                    new EventSubscriberCommand(subscribeCommand.getObserverName(), Set.copyOf(subscribeCommand.getEventTypes())),
+                    new EventSubscriberCommand(subscribeCommand.getName(), Set.copyOf(subscribeCommand.getEventTypes())),
                     subscription::set
             ).execute();
         }
@@ -62,7 +62,7 @@ public class SubscriptionUtilsService {
         if (!eventTypesToUnsubscribe.isEmpty()) {
             eventUnSubscriberFactory.buildEventUnSubscriber(
                     new EventUnSubscriberCommand(
-                            subscribeCommand.getObserverName(),
+                            subscribeCommand.getName(),
                             eventTypesToUnsubscribe
                     ),
                     subscription::set
@@ -72,8 +72,8 @@ public class SubscriptionUtilsService {
 
     private void handleRegistration(SubscribeCommandRes subscribeCommand, AtomicReference<Subscription> subscription) {
         ObserverRegisterCommand registerCommand = new ObserverRegisterCommand(
-                subscribeCommand.getObserverName(),
-                subscribeCommand.getObserverDisplayName(),
+                subscribeCommand.getName(),
+                subscribeCommand.getDisplayName(),
                 subscribeCommand.getObserverBaseUrl(),
                 subscribeCommand.getObserverApiVersion()
         );

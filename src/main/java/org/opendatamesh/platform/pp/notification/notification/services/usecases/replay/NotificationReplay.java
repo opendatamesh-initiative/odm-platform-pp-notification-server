@@ -60,7 +60,7 @@ class NotificationReplay implements UseCase {
             logger.info("{} Successfully re-dispatched notification {} to observer: {} at {}",
                     USE_CASE_PREFIX, updatedNotification.getSequenceId(),
                     updatedNotification.getSubscription().getDisplayName(),
-                    updatedNotification.getSubscription().getObserverServerBaseUrl());
+                    updatedNotification.getSubscription().getObserverBaseUrl());
             // Note: We don't update the notification here to avoid race condition with observer
             // Only update on failure to avoid conflicts with observer's status updates
             presenter.presentReplayedNotification(updatedNotification);

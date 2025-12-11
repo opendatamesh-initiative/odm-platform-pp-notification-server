@@ -149,8 +149,8 @@ Register an observer and subscribe it to specific event types.
 
 ```json
 {
-  "observerName": "my-observer",
-  "observerDisplayName": "My Observer Service",
+  "name": "my-observer",
+  "displayName": "My Observer Service",
   "observerBaseUrl": "https://observer.example.com",
   "observerApiVersion": "v1",
   "eventTypes": [
@@ -168,7 +168,7 @@ Register an observer and subscribe it to specific event types.
     "uuid": "550e8400-e29b-41d4-a716-446655440000",
     "name": "my-observer",
     "displayName": "My Observer Service",
-    "observerServerBaseUrl": "https://observer.example.com",
+    "observerBaseUrl": "https://observer.example.com",
     "observerApiVersion": "v1",
     "eventTypes": [
       "DATA_PRODUCT_CREATED",
@@ -180,7 +180,7 @@ Register an observer and subscribe it to specific event types.
 
 **Notes**:
 
-- If an observer with the same `observerName` already exists, it will be updated
+- If an observer with the same `name` already exists, it will be updated
 - If `eventTypes` is provided, the observer will be subscribed to those types and unsubscribed from any types not in the
   list
 - If `eventTypes` is empty or null, the observer will be subscribed to ALL events
@@ -217,16 +217,16 @@ structure:
     "resourceType": "DATA_PRODUCT",
     "resourceIdentifier": "d5b5b9ac-6a73-4c73-b9ce-4bfc10a1dba0",
     "type": "DATA_PRODUCT_CREATED",
-    "version": "2.0.0",
-    "content": {
+    "eventTypeVersion": "2.0.0",
+    "eventContent": {
       ...
     }
   },
-  "target": {
+  "subscription": {
     "name": "my-observer",
     "displayName": "My Observer Service",
-    "baseUrl": "https://observer.example.com",
-    "apiVersion": "v2"
+    "observerBaseUrl": "https://observer.example.com",
+    "observerApiVersion": "v2"
   }
 }
 ```
@@ -259,7 +259,7 @@ structure:
     "id": 1,
     "name": "my-observer",
     "displayName": "My Observer Service",
-    "observerServerBaseUrl": "https://observer.example.com"
+    "observerBaseUrl": "https://observer.example.com"
   },
   "receivedAt": "2024-01-15T10:30:00Z",
   "processedAt": null
@@ -272,7 +272,7 @@ structure:
 
 - Notifications are sent synchronously, so your endpoint should return as soon as possible and process them in a
   separate thread
-- The `event.content` (V2) or `event.beforeState` and `event.afterState`(V1) contains the event-specific payload - see
+- The `event.eventContent` (V2) or `event.beforeState` and `event.afterState`(V1) contains the event-specific payload - see
   the specific service repository's README.md for event content schemas
 - If your endpoint returns any type of error (4xx/5xx) or it is unreachable/times out, the notification status will be
   marked as `FAILED_TO_DELIVER` and can be

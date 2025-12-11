@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "SubscriptionSearchOptions", description = "Search and filter options for subscriptions")
 public class SubscriptionSearchOptions {
 
-    @Schema(description = "Filter by subscription observerName")
+    @Schema(description = "Filter by subscription name")
     private String name;
 
     @Schema(description = "Filter by event type (observerName)")

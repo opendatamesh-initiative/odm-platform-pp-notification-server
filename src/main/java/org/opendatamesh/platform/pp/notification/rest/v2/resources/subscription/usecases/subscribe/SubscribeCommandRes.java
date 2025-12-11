@@ -3,8 +3,8 @@ package org.opendatamesh.platform.pp.notification.rest.v2.resources.subscription
 import java.util.List;
 
 public class SubscribeCommandRes {
-    String observerName;
-    String observerDisplayName;
+    String name;
+    String displayName;
     String observerBaseUrl;
     String observerApiVersion;
     List<String> eventTypes;
@@ -20,20 +20,20 @@ public class SubscribeCommandRes {
         this.observerApiVersion = observerApiVersion;
     }
 
-    public String getObserverName() {
-        return observerName;
+    public String getName() {
+        return name;
     }
 
-    public void setObserverName(String observerName) {
-        this.observerName = observerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getObserverDisplayName() {
-        return observerDisplayName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setObserverDisplayName(String observerDisplayName) {
-        this.observerDisplayName = observerDisplayName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getObserverBaseUrl() {

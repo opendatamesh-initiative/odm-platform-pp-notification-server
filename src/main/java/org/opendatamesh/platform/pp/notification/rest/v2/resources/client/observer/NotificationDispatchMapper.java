@@ -14,12 +14,12 @@ public interface NotificationDispatchMapper {
     @Mapping(source = "event.resourceType", target = "event.resourceType")
     @Mapping(source = "event.resourceIdentifier", target = "event.resourceIdentifier")
     @Mapping(source = "event.type", target = "event.type")
-    @Mapping(source = "event.eventTypeVersion", target = "event.version")
-    @Mapping(source = "event.eventContent", target = "event.content", qualifiedByName = "stringToJsonNode")
-    @Mapping(source = "subscription.name", target = "target.name")
-    @Mapping(source = "subscription.displayName", target = "target.displayName")
-    @Mapping(source = "subscription.observerServerBaseUrl", target = "target.baseUrl")
-    @Mapping(source = "subscription.observerApiVersion", target = "target.apiVersion")
+    @Mapping(source = "event.eventTypeVersion", target = "event.eventTypeVersion")
+    @Mapping(source = "event.eventContent", target = "event.eventContent", qualifiedByName = "stringToJsonNode")
+    @Mapping(source = "subscription.name", target = "subscription.name")
+    @Mapping(source = "subscription.displayName", target = "subscription.displayName")
+    @Mapping(source = "subscription.observerBaseUrl", target = "subscription.observerBaseUrl")
+    @Mapping(source = "subscription.observerApiVersion", target = "subscription.observerApiVersion")
     NotificationDispatchRes toRes(Notification notification);
     
     @Named("stringToJsonNode")

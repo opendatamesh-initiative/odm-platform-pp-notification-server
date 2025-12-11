@@ -85,7 +85,7 @@ public class EventNotificationV1Mapper {
         observerResV1.setId(null);
         observerResV1.setName(subscription.getName());
         observerResV1.setDisplayName(subscription.getDisplayName());
-        observerResV1.setObserverServerBaseUrl(subscription.getObserverServerBaseUrl());
+        observerResV1.setObserverServerBaseUrl(subscription.getObserverBaseUrl());
         return observerResV1;
     }
 

@@ -32,7 +32,7 @@ public class ObserverClientImpl implements ObserverClient {
     public void dispatchNotification(Notification notification) {
         Subscription subscription = notification.getSubscription();
         SubscriptionSupportedApiVersion apiVersion = SubscriptionSupportedApiVersion.valueOf(notification.getSubscription().getObserverApiVersion().toUpperCase());
-        String fullUrl = buildUrl(subscription.getObserverServerBaseUrl(), apiVersion);
+        String fullUrl = buildUrl(subscription.getObserverBaseUrl(), apiVersion);
         Object payload = buildNotificationRes(notification, apiVersion);
         restUtils.genericPost(
                 fullUrl,

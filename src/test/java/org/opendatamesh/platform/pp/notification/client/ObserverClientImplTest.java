@@ -50,7 +50,7 @@ class ObserverClientImplTest {
     @BeforeEach
     void setUp() throws Exception {
         subscription = new Subscription();
-        subscription.setObserverServerBaseUrl("https://observer.example.com");
+        subscription.setObserverBaseUrl("https://observer.example.com");
         subscription.setObserverApiVersion("V1");
 
         notification = new Notification();
@@ -233,7 +233,7 @@ class ObserverClientImplTest {
     @Test
     void whenDispatchNotificationWithDifferentBaseUrlThenBuildCorrectUrl() {
         // Given
-        subscription.setObserverServerBaseUrl("https://different-server.com");
+        subscription.setObserverBaseUrl("https://different-server.com");
         subscription.setObserverApiVersion("V2");
         NotificationDispatchRes v2Payload = new NotificationDispatchRes();
         when(notificationDispatchMapper.toRes(notification)).thenReturn(v2Payload);

@@ -22,7 +22,7 @@ public class Subscription extends VersionedEntity {
     private String displayName;
 
     @Column(name = "observer_server_base_url")
-    private String observerServerBaseUrl;
+    private String observerBaseUrl;
 
     @Column(name = "observer_api_version")
     private String observerApiVersion;
@@ -54,12 +54,12 @@ public class Subscription extends VersionedEntity {
         this.displayName = displayName;
     }
 
-    public String getObserverServerBaseUrl() {
-        return observerServerBaseUrl;
+    public String getObserverBaseUrl() {
+        return observerBaseUrl;
     }
 
-    public void setObserverServerBaseUrl(String observerServerBaseUrl) {
-        this.observerServerBaseUrl = observerServerBaseUrl;
+    public void setObserverBaseUrl(String observerBaseUrl) {
+        this.observerBaseUrl = observerBaseUrl;
     }
 
     public String getObserverApiVersion() {

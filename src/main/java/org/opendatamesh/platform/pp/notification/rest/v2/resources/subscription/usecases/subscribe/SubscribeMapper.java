@@ -13,9 +13,9 @@ import java.util.List;
 public interface SubscribeMapper {
 
     @Mapping(source = "uuid", target = "subscription.uuid")
-    @Mapping(source = "name", target = "subscription.observerName")
-    @Mapping(source = "displayName", target = "subscription.observerDisplayName")
-    @Mapping(source = "observerServerBaseUrl", target = "subscription.observerBaseUrl")
+    @Mapping(source = "name", target = "subscription.name")
+    @Mapping(source = "displayName", target = "subscription.displayName")
+    @Mapping(source = "observerBaseUrl", target = "subscription.observerBaseUrl")
     @Mapping(source = "observerApiVersion", target = "subscription.observerApiVersion")
     @Mapping(source = "eventTypes", target = "subscription.eventTypes", qualifiedByName = "eventTypesToStringList")
     SubscribeResponseRes toRes(Subscription subscription);

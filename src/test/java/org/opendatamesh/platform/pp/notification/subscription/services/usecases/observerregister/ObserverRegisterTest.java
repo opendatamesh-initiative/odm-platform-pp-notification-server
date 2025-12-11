@@ -43,7 +43,7 @@ class ObserverRegisterTest {
         existingSubscription = new Subscription();
         existingSubscription.setName("test-observer");
         existingSubscription.setDisplayName("Test Observer");
-        existingSubscription.setObserverServerBaseUrl("https://old-url.example.com");
+        existingSubscription.setObserverBaseUrl("https://old-url.example.com");
 
         lenient().doAnswer(invocation -> {
             Runnable runnable = invocation.getArgument(0);
@@ -136,7 +136,7 @@ class ObserverRegisterTest {
         Subscription createdSubscription = new Subscription();
         createdSubscription.setName("new-observer");
         createdSubscription.setDisplayName("New Observer");
-        createdSubscription.setObserverServerBaseUrl("https://observer.example.com");
+        createdSubscription.setObserverBaseUrl("https://observer.example.com");
         when(persistencePort.create(any(Subscription.class))).thenReturn(createdSubscription);
 
         // When
@@ -151,7 +151,7 @@ class ObserverRegisterTest {
         Subscription capturedSubscription = subscriptionCaptor.getValue();
         assertThat(capturedSubscription.getName()).isEqualTo("new-observer");
         assertThat(capturedSubscription.getDisplayName()).isEqualTo("New Observer");
-        assertThat(capturedSubscription.getObserverServerBaseUrl()).isEqualTo("https://observer.example.com");
+        assertThat(capturedSubscription.getObserverBaseUrl()).isEqualTo("https://observer.example.com");
     }
 
     @Test
@@ -166,7 +166,7 @@ class ObserverRegisterTest {
         Subscription createdSubscription = new Subscription();
         createdSubscription.setName("new-observer");
         createdSubscription.setDisplayName("new-observer");
-        createdSubscription.setObserverServerBaseUrl("https://observer.example.com");
+        createdSubscription.setObserverBaseUrl("https://observer.example.com");
         when(persistencePort.create(any(Subscription.class))).thenReturn(createdSubscription);
 
         // When
@@ -180,7 +180,7 @@ class ObserverRegisterTest {
         Subscription capturedSubscription = subscriptionCaptor.getValue();
         assertThat(capturedSubscription.getName()).isEqualTo("new-observer");
         assertThat(capturedSubscription.getDisplayName()).isEqualTo("new-observer");
-        assertThat(capturedSubscription.getObserverServerBaseUrl()).isEqualTo("https://observer.example.com");
+        assertThat(capturedSubscription.getObserverBaseUrl()).isEqualTo("https://observer.example.com");
     }
 
     @Test
@@ -195,7 +195,7 @@ class ObserverRegisterTest {
         Subscription createdSubscription = new Subscription();
         createdSubscription.setName("new-observer");
         createdSubscription.setDisplayName("new-observer");
-        createdSubscription.setObserverServerBaseUrl("https://observer.example.com");
+        createdSubscription.setObserverBaseUrl("https://observer.example.com");
         when(persistencePort.create(any(Subscription.class))).thenReturn(createdSubscription);
 
         // When
@@ -230,7 +230,7 @@ class ObserverRegisterTest {
         verify(presenter).presentSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getObserverServerBaseUrl()).isEqualTo("https://new-url.example.com");
+        assertThat(savedSubscription.getObserverBaseUrl()).isEqualTo("https://new-url.example.com");
         assertThat(savedSubscription.getName()).isEqualTo("test-observer");
     }
 
@@ -253,7 +253,7 @@ class ObserverRegisterTest {
         verify(presenter).presentSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getObserverServerBaseUrl()).isEqualTo("https://new-url.example.com");
+        assertThat(savedSubscription.getObserverBaseUrl()).isEqualTo("https://new-url.example.com");
         assertThat(savedSubscription.getDisplayName()).isEqualTo("Updated Display Name");
     }
 
@@ -276,7 +276,7 @@ class ObserverRegisterTest {
         verify(presenter).presentSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getObserverServerBaseUrl()).isEqualTo("https://new-url.example.com");
+        assertThat(savedSubscription.getObserverBaseUrl()).isEqualTo("https://new-url.example.com");
         assertThat(savedSubscription.getDisplayName()).isEqualTo("Test Observer");
     }
 
@@ -299,7 +299,7 @@ class ObserverRegisterTest {
         verify(presenter).presentSubscription(subscriptionCaptor.capture());
 
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
-        assertThat(savedSubscription.getObserverServerBaseUrl()).isEqualTo("https://new-url.example.com");
+        assertThat(savedSubscription.getObserverBaseUrl()).isEqualTo("https://new-url.example.com");
         assertThat(savedSubscription.getDisplayName()).isEqualTo("Test Observer");
     }
 }

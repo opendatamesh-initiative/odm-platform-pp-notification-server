@@ -57,8 +57,8 @@ public class NotificationUseCaseControllerIT extends NotificationApplicationIT {
         // Given - Subscribe to an event type
         String observerName = "test-observer-replay-" + System.currentTimeMillis();
         SubscribeCommandRes subscribeCommand = new SubscribeCommandRes();
-        subscribeCommand.setObserverName(observerName);
-        subscribeCommand.setObserverDisplayName("Test Observer for Replay");
+        subscribeCommand.setName(observerName);
+        subscribeCommand.setDisplayName("Test Observer for Replay");
         subscribeCommand.setObserverBaseUrl("https://observer-replay.example.com/api/v1");
         subscribeCommand.setObserverApiVersion("v1");
         subscribeCommand.setEventTypes(Arrays.asList("DATA_PRODUCT_CREATED"));
