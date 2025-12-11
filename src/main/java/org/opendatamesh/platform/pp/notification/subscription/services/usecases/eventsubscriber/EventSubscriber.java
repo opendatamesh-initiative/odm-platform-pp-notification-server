@@ -54,13 +54,12 @@ class EventSubscriber implements UseCase {
             command.eventTypes().stream()
                     .filter(event -> !eventTypes.contains(event))
                     .forEach(event -> {
-                        subscriptionEventTypes.add(
-                                new SubscriptionEventType(event)
-                        );
+                        SubscriptionEventType newEventType = new SubscriptionEventType(event);
+                        newEventType.setSubscription(subscription);
+                        subscriptionEventTypes.add(newEventType);
                         eventTypes.add(event);
                     });
 
-            subscription.setEventTypes(subscriptionEventTypes);
             persistencePort.save(subscription);
             logger.info("{} Observer: '{}' now subscribed to: '{}' event types.", USE_CASE_PREFIX, subscription.getName(), eventTypes.isEmpty() ? "ALL" : eventTypes);
 

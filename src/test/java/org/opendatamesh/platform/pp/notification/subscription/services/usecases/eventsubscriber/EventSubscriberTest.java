@@ -173,6 +173,9 @@ class EventSubscriberTest {
                 .map(SubscriptionEventType::getEventType)
                 .toList())
                 .containsExactlyInAnyOrder("EVENT_TYPE_1", "EVENT_TYPE_2");
+        // Verify bidirectional relationship is set correctly
+        assertThat(savedSubscription.getEventTypes()).allMatch(eventType -> 
+                eventType.getSubscription() == savedSubscription);
     }
 
     @Test
@@ -250,6 +253,8 @@ class EventSubscriberTest {
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
         assertThat(savedSubscription.getEventTypes()).hasSize(1);
         assertThat(savedSubscription.getEventTypes().get(0).getEventType()).isEqualTo("EVENT_TYPE_1");
+        // Verify bidirectional relationship is set correctly
+        assertThat(savedSubscription.getEventTypes().get(0).getSubscription()).isEqualTo(savedSubscription);
     }
 }
 

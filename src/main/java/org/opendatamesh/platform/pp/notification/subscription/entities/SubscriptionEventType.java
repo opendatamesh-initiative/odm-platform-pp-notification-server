@@ -11,7 +11,7 @@ public class SubscriptionEventType {
     private Long sequenceId;
 
     @ManyToOne
-    @JoinColumn(name = "subscription_uuid", insertable = false, updatable = false)
+    @JoinColumn(name = "subscription_uuid", referencedColumnName = "uuid")
     private Subscription subscription;
 
     @Column(name = "event_type")

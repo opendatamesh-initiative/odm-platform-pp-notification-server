@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,12 +49,9 @@ class EventUnSubscriber implements UseCase {
             Set<String> eventTypes = subscription.getEventTypes().stream().map(SubscriptionEventType::getEventType).collect(Collectors.toSet());
             logger.info("{} Observer: '{}' currently subscribed to: '{}' event types.", USE_CASE_PREFIX, subscription.getName(), eventTypes.isEmpty() ? "ALL" : eventTypes);
 
-            List<SubscriptionEventType> subscriptionEventTypes = new ArrayList<>();
-
-            subscription.getEventTypes()
-                    .stream().filter(event -> command.eventTypes().contains(event.getEventType()))
-                    .forEach(subscriptionEventTypes::add);
-            subscription.setEventTypes(subscriptionEventTypes);
+            // Remove event types that match the command (to unsubscribe from them)
+            // We must modify the existing collection, not replace it, due to orphanRemoval = true
+            subscription.getEventTypes().removeIf(event -> command.eventTypes().contains(event.getEventType()));
             persistencePort.save(subscription);
             logger.info("{} Observer: '{}' now subscribed to: '{}' event types.", USE_CASE_PREFIX, subscription.getName(), eventTypes.isEmpty() ? "ALL" : eventTypes);
 
