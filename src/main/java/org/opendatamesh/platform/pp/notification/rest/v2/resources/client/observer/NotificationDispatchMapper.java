@@ -16,6 +16,7 @@ public interface NotificationDispatchMapper {
     @Mapping(source = "event.type", target = "event.type")
     @Mapping(source = "event.eventTypeVersion", target = "event.eventTypeVersion")
     @Mapping(source = "event.eventContent", target = "event.eventContent", qualifiedByName = "stringToJsonNode")
+    @Mapping(source = "subscription.uuid", target = "subscription.uuid")
     @Mapping(source = "subscription.name", target = "subscription.name")
     @Mapping(source = "subscription.displayName", target = "subscription.displayName")
     @Mapping(source = "subscription.observerBaseUrl", target = "subscription.observerBaseUrl")
