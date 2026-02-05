@@ -115,6 +115,10 @@ public class NotificationDispatchRes {
 
     @Schema(name = "NotificationDispatchSubscriptionRes", description = "Subscription information for the observer server in the notification dispatch")
     public static class NotificationDispatchSubscriptionRes {
+
+        @Schema(description = "Unique identifier of the subscription (UUID)", example = "6e1b2a41-2f24-4b56-8a3f-2149f1d456b7")
+        private String uuid;
+
         @Schema(description = "Internal name of the observer server", example = "blindata-observer")
         private String name;
 
@@ -128,6 +132,14 @@ public class NotificationDispatchRes {
         private String observerApiVersion;
 
         public NotificationDispatchSubscriptionRes() {
+        }
+
+        public String getUuid() {
+            return uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid;
         }
 
         public String getName() {

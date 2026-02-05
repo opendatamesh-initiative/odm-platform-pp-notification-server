@@ -70,7 +70,7 @@ class ObserverClientImplTest {
         subscription.setObserverApiVersion("V1");
         EventNotificationResV1 v1Payload = new EventNotificationResV1();
         when(eventNotificationV1Mapper.toRes(notification)).thenReturn(v1Payload);
-        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(String.class))).thenReturn("success");
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
 
         // When
         observerClientImpl.dispatchNotification(notification);
@@ -82,7 +82,7 @@ class ObserverClientImplTest {
                 urlCaptor.capture(),
                 anyList(),
                 payloadCaptor.capture(),
-                eq(String.class)
+                eq(Object.class)
         );
 
         assertThat(urlCaptor.getValue()).isEqualTo("https://observer.example.com/api/v1/up/observer/notifications");
@@ -96,7 +96,7 @@ class ObserverClientImplTest {
         subscription.setObserverApiVersion("V2");
         NotificationDispatchRes v2Payload = new NotificationDispatchRes();
         when(notificationDispatchMapper.toRes(notification)).thenReturn(v2Payload);
-        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(String.class))).thenReturn("success");
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
 
         // When
         observerClientImpl.dispatchNotification(notification);
@@ -108,7 +108,7 @@ class ObserverClientImplTest {
                 urlCaptor.capture(),
                 anyList(),
                 payloadCaptor.capture(),
-                eq(String.class)
+                eq(Object.class)
         );
 
         assertThat(urlCaptor.getValue()).isEqualTo("https://observer.example.com/api/v2/up/observer/notifications");
@@ -122,7 +122,7 @@ class ObserverClientImplTest {
         subscription.setObserverApiVersion("v1");
         EventNotificationResV1 v1Payload = new EventNotificationResV1();
         when(eventNotificationV1Mapper.toRes(notification)).thenReturn(v1Payload);
-        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(String.class))).thenReturn("success");
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
 
         // When
         observerClientImpl.dispatchNotification(notification);
@@ -133,7 +133,7 @@ class ObserverClientImplTest {
                 urlCaptor.capture(),
                 anyList(),
                 any(),
-                eq(String.class)
+                eq(Object.class)
         );
 
         assertThat(urlCaptor.getValue()).isEqualTo("https://observer.example.com/api/v1/up/observer/notifications");
@@ -146,7 +146,7 @@ class ObserverClientImplTest {
         subscription.setObserverApiVersion("v2");
         NotificationDispatchRes v2Payload = new NotificationDispatchRes();
         when(notificationDispatchMapper.toRes(notification)).thenReturn(v2Payload);
-        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(String.class))).thenReturn("success");
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
 
         // When
         observerClientImpl.dispatchNotification(notification);
@@ -157,7 +157,7 @@ class ObserverClientImplTest {
                 urlCaptor.capture(),
                 anyList(),
                 any(),
-                eq(String.class)
+                eq(Object.class)
         );
 
         assertThat(urlCaptor.getValue()).isEqualTo("https://observer.example.com/api/v2/up/observer/notifications");
@@ -210,7 +210,7 @@ class ObserverClientImplTest {
         subscription.setObserverApiVersion("V1");
         EventNotificationResV1 v1Payload = new EventNotificationResV1();
         when(eventNotificationV1Mapper.toRes(notification)).thenReturn(v1Payload);
-        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(String.class))).thenReturn("success");
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
 
         // When
         observerClientImpl.dispatchNotification(notification);
@@ -222,7 +222,7 @@ class ObserverClientImplTest {
                 any(String.class),
                 headersCaptor.capture(),
                 any(),
-                eq(String.class)
+                eq(Object.class)
         );
 
         if (headersCaptor.getValue() != null) {
@@ -237,7 +237,7 @@ class ObserverClientImplTest {
         subscription.setObserverApiVersion("V2");
         NotificationDispatchRes v2Payload = new NotificationDispatchRes();
         when(notificationDispatchMapper.toRes(notification)).thenReturn(v2Payload);
-        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(String.class))).thenReturn("success");
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
 
         // When
         observerClientImpl.dispatchNotification(notification);
@@ -248,7 +248,7 @@ class ObserverClientImplTest {
                 urlCaptor.capture(),
                 anyList(),
                 any(),
-                eq(String.class)
+                eq(Object.class)
         );
 
         assertThat(urlCaptor.getValue()).isEqualTo("https://different-server.com/api/v2/up/observer/notifications");

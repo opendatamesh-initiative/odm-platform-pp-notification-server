@@ -38,7 +38,7 @@ public class ObserverClientImpl implements ObserverClient {
                 fullUrl,
                 new ArrayList<>(),
                 payload,
-                String.class
+                Object.class
         );
     }
 
