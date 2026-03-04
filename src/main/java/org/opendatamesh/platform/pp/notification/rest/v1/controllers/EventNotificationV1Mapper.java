@@ -5,12 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.opendatamesh.platform.pp.notification.event.entities.Event;
 import org.opendatamesh.platform.pp.notification.notification.entities.Notification;
 import org.opendatamesh.platform.pp.notification.notification.entities.NotificationStatus;
-import org.opendatamesh.platform.pp.notification.rest.v1.resources.EventNotificationResV1;
-import org.opendatamesh.platform.pp.notification.rest.v1.resources.EventNotificationStatusResV1;
-import org.opendatamesh.platform.pp.notification.rest.v1.resources.EventNotificationV1SearchOptions;
-import org.opendatamesh.platform.pp.notification.rest.v1.resources.EventResV1;
-import org.opendatamesh.platform.pp.notification.rest.v1.resources.EventV1SearchOptions;
-import org.opendatamesh.platform.pp.notification.rest.v1.resources.ObserverResV1;
+import org.opendatamesh.platform.pp.notification.rest.v1.resources.*;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.event.EventSearchOptions;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.notification.NotificationSearchOptions;
 import org.opendatamesh.platform.pp.notification.rest.v2.resources.notification.NotificationStatusRes;
@@ -31,24 +26,24 @@ public class EventNotificationV1Mapper {
         this.objectMapper = new ObjectMapper();
     }
 
-    public EventNotificationResV1 toRes(Notification notification) {
+    public EventNotificationResV1 toRes(Notification notificationEventContentV1) {
         EventNotificationResV1 eventNotificationResV1 = new EventNotificationResV1();
-        eventNotificationResV1.setId(notification.getSequenceId());
-        if (notification.getEvent() != null) {
-            eventNotificationResV1.setEvent(toEventResV1(notification.getEvent()));
+        eventNotificationResV1.setId(notificationEventContentV1.getSequenceId());
+        if (notificationEventContentV1.getEvent() != null) {
+            eventNotificationResV1.setEvent(toEventResV1(notificationEventContentV1.getEvent()));
         }
-        eventNotificationResV1.setStatus(mapNotificationStatus(notification.getStatus()));
+        eventNotificationResV1.setStatus(mapNotificationStatus(notificationEventContentV1.getStatus()));
         eventNotificationResV1.setProcessingOutput(
-                notification.getErrorMessage() != null ? notification.getErrorMessage() : ""
+                notificationEventContentV1.getErrorMessage() != null ? notificationEventContentV1.getErrorMessage() : ""
         );
-        if (notification.getSubscription() != null) {
-            eventNotificationResV1.setObserver(toObserverResV1(notification.getSubscription()));
+        if (notificationEventContentV1.getSubscription() != null) {
+            eventNotificationResV1.setObserver(toObserverResV1(notificationEventContentV1.getSubscription()));
         }
-        if (notification.getCreatedAt() != null) {
-            eventNotificationResV1.setReceivedAt(new Date(notification.getCreatedAt().getTime()));
+        if (notificationEventContentV1.getCreatedAt() != null) {
+            eventNotificationResV1.setReceivedAt(new Date(notificationEventContentV1.getCreatedAt().getTime()));
         }
-        if (notification.getUpdatedAt() != null) {
-            eventNotificationResV1.setProcessedAt(new Date(notification.getUpdatedAt().getTime()));
+        if (notificationEventContentV1.getUpdatedAt() != null) {
+            eventNotificationResV1.setProcessedAt(new Date(notificationEventContentV1.getUpdatedAt().getTime()));
         }
         return eventNotificationResV1;
     }

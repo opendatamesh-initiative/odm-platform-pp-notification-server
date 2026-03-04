@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.opendatamesh.platform.pp.notification.event.entities.Event;
 import org.opendatamesh.platform.pp.notification.notification.entities.Notification;
 import org.opendatamesh.platform.pp.notification.rest.v1.controllers.EventNotificationV1Mapper;
 import org.opendatamesh.platform.pp.notification.rest.v1.resources.EventNotificationResV1;
@@ -14,7 +15,13 @@ import org.opendatamesh.platform.pp.notification.rest.v2.resources.client.observ
 import org.opendatamesh.platform.pp.notification.subscription.entities.Subscription;
 import org.opendatamesh.platform.pp.notification.utils.client.RestUtils;
 import org.opendatamesh.platform.pp.notification.utils.client.http.HttpHeader;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -24,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -64,6 +72,13 @@ class ObserverClientImplTest {
         restUtilsField.set(observerClientImpl, restUtils);
     }
 
+    /*
+     * Scenario: When dispatching a v1 event to a V1 observer endpoint, dispatch is performed
+     *   Given a notification with event type version "1.0.0"
+     *   And the subscription has observer API version "V1"
+     *   When the notification is dispatched
+     *   Then the dispatch (HTTP post) is performed
+     */
     @Test
     void whenDispatchNotificationWithV1ApiVersionThenUseV1MapperAndEndpoint() {
         // Given
@@ -90,6 +105,13 @@ class ObserverClientImplTest {
         verify(eventNotificationV1Mapper).toRes(notification);
     }
 
+    /*
+     * Scenario: When dispatching a v1 event to a V2 observer endpoint, dispatch is performed
+     *   Given a notification with event type version "1.0.0"
+     *   And the subscription has observer API version "V2"
+     *   When the notification is dispatched
+     *   Then the dispatch (HTTP post) is performed
+     */
     @Test
     void whenDispatchNotificationWithV2ApiVersionThenUseV2MapperAndEndpoint() {
         // Given
@@ -111,6 +133,80 @@ class ObserverClientImplTest {
                 eq(Object.class)
         );
 
+        assertThat(urlCaptor.getValue()).isEqualTo("https://observer.example.com/api/v2/up/observer/notifications");
+        assertThat(payloadCaptor.getValue()).isEqualTo(v2Payload);
+        verify(notificationDispatchMapper).toRes(notification);
+    }
+
+    /*
+     * Scenario: When dispatching a v2 event to a V1 observer endpoint, log at INFO and skip dispatch
+     *   Given a notification with event type version "2.0.0"
+     *   And the subscription has observer API version "V1"
+     *   When the notification is dispatched
+     *   Then an INFO level message is logged
+     *   And the dispatch (HTTP post) is not performed
+     *   And no exception is thrown
+     */
+    @Test
+    void whenDispatchNotificationWithV2EventTypeAndV1ObserverThenLogInfoAndSkipDispatchWithoutError() {
+        // Given a notification with event type version "2.0.0"
+        Event event = new Event();
+        event.setEventTypeVersion("2.0.0");
+        notification.setEvent(event);
+        subscription.setObserverApiVersion("V1");
+
+        Logger logger = (Logger) LoggerFactory.getLogger(ObserverClientImpl.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+
+        try {
+            // When the notification is dispatched
+            observerClientImpl.dispatchNotification(notification);
+
+            // Then an INFO level message is logged
+            List<ILoggingEvent> logEvents = listAppender.list;
+            assertThat(logEvents).anyMatch(e -> e.getLevel() == Level.INFO);
+
+            // And the dispatch (HTTP post) is not performed
+            verify(restUtils, never()).genericPost(any(String.class), anyList(), any(), eq(Object.class));
+            verify(eventNotificationV1Mapper, never()).toRes(any());
+            verify(notificationDispatchMapper, never()).toRes(any());
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    /*
+     * Scenario: When dispatching a v2 event to a V2 observer endpoint, dispatch is performed
+     *   Given a notification with event type version "2.0.0"
+     *   And the subscription has observer API version "V2"
+     *   When the notification is dispatched
+     *   Then the dispatch (HTTP post) is performed
+     */
+    @Test
+    void whenDispatchNotificationWithV2EventTypeAndV2ObserverThenDispatchIsPerformed() {
+        // Given a notification with event type version "2.0.0" and observer API version "V2"
+        Event event = new Event();
+        event.setEventTypeVersion("2.0.0");
+        notification.setEvent(event);
+        subscription.setObserverApiVersion("V2");
+        NotificationDispatchRes v2Payload = new NotificationDispatchRes();
+        when(notificationDispatchMapper.toRes(notification)).thenReturn(v2Payload);
+        when(restUtils.genericPost(any(String.class), anyList(), any(), eq(Object.class))).thenReturn("success");
+
+        // When the notification is dispatched
+        observerClientImpl.dispatchNotification(notification);
+
+        // Then the dispatch (HTTP post) is performed
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Object> payloadCaptor = ArgumentCaptor.forClass(Object.class);
+        verify(restUtils).genericPost(
+                urlCaptor.capture(),
+                anyList(),
+                payloadCaptor.capture(),
+                eq(Object.class)
+        );
         assertThat(urlCaptor.getValue()).isEqualTo("https://observer.example.com/api/v2/up/observer/notifications");
         assertThat(payloadCaptor.getValue()).isEqualTo(v2Payload);
         verify(notificationDispatchMapper).toRes(notification);
