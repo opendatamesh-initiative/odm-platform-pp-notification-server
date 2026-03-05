@@ -69,8 +69,9 @@ class ObserverRegister implements UseCase {
     }
 
     private void updateExistingSubscription(Subscription subscription) {
-        logger.warn("{} Observer '{}' already registered, changing base url from '{}' to '{}'", USE_CASE_PREFIX, subscription.getDisplayName(), subscription.getObserverBaseUrl(), command.observerBaseUrl());
+        logger.warn("{} Observer '{}' already registered, changing base url from '{}' to '{}' and api version from '{}' to '{}'", USE_CASE_PREFIX, subscription.getDisplayName(), subscription.getObserverBaseUrl(), command.observerBaseUrl(), subscription.getObserverApiVersion(), command.observerApiVersion());
         subscription.setObserverBaseUrl(command.observerBaseUrl());
+        subscription.setObserverApiVersion(command.observerApiVersion());
         if (StringUtils.hasText(command.observerDisplayName())) {
             subscription.setDisplayName(command.observerDisplayName());
         }
