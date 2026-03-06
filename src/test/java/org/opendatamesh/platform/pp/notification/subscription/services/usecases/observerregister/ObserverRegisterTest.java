@@ -212,10 +212,11 @@ class ObserverRegisterTest {
     }
 
     @Test
-    void whenObserverExistsThenUpdateBaseUrl() {
+    void whenObserverExistsThenUpdateBaseUrlAndApiVersion() {
         // Given
         when(command.observerName()).thenReturn("test-observer");
         when(command.observerBaseUrl()).thenReturn("https://new-url.example.com");
+        when(command.observerApiVersion()).thenReturn("V2");
         when(persistencePort.findSubscriptionByName("test-observer")).thenReturn(Optional.of(existingSubscription));
 
         ArgumentCaptor<Subscription> subscriptionCaptor = ArgumentCaptor.forClass(Subscription.class);
@@ -232,6 +233,7 @@ class ObserverRegisterTest {
         Subscription savedSubscription = subscriptionCaptor.getAllValues().get(0);
         assertThat(savedSubscription.getObserverBaseUrl()).isEqualTo("https://new-url.example.com");
         assertThat(savedSubscription.getName()).isEqualTo("test-observer");
+        assertThat(savedSubscription.getObserverApiVersion()).isEqualTo("V2");
     }
 
     @Test
