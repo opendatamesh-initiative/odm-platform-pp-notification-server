@@ -111,6 +111,8 @@ docker run -p 8080:8080 \
   odm-notification-server
 ```
 
+The Docker Hub overview of this image is [`DOCKERHUB.md`](DOCKERHUB.md). It is published on every release, so keep it up to date.
+
 #### Option 3: Using the JAR
 
 ```bash
